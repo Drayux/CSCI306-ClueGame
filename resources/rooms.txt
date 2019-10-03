@@ -1,0 +1,10 @@
+C, Asylum, Card
+K, Kitchen, Card
+B, Butcher's Bedroom, Card
+R, Hotbox, Card
+E, Entry, Card
+S, Studio, Card
+D, Dining Room, Card
+H, Arena, Card
+X, Closet, Other
+W, Walkway, Other
