@@ -35,6 +35,9 @@ public class Board {
 // constructor is private to ensure only one can be created
 
 	private Board() {
+		
+		//Got help from fellow students who also ran into Null pointer Exception.
+		// They suggested 'Their fix"  for the problem which was this method below
 		legend = new HashMap<Character,String>();
 		board = new clueGame.BoardCell[MAX_BOARDSIZE][MAX_BOARDSIZE];
 		for(int i = 0; i < MAX_BOARDSIZE; i ++) {
