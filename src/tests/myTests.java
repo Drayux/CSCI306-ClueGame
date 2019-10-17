@@ -24,11 +24,9 @@ public class myTests {
 	
 	@BeforeClass
 	public static void setUp() {
-		// Board is singleton, get the only instance
 		board = Board.getInstance();
-		// set the file names to use my config files
 		board.setConfigFiles("layoutCSV.csv", "rooms.txt");		
-		// Initialize will load BOTH config files 
+		// Initialize will load BOTH configuration files 
 		board.initialize();
 	}
 	
@@ -36,12 +34,11 @@ public class myTests {
 
 	@Test
 	public void testRooms() {
-		// Get the map of initial => room 
+		// Get the map of initial room 
 		Map<Character, String> legend = board.getLegend();
 		// check correct number of rooms
-		assertEquals(LEGEND_SIZE, legend.size());
+		assertEquals(LEGEND_SIZE , legend.size());
 		// To ensure data is correctly loaded, test retrieving a few rooms 
-		// from the hash, including the first and last in the file and a few others
 		assertEquals("Asylum", legend.get('C'));
 		assertEquals("Butcher's Bedroom", legend.get('B'));
 		assertEquals("Studio", legend.get('S'));
@@ -52,15 +49,13 @@ public class myTests {
 	
 	@Test
 	public void testBoardDimensions() {
-		// Ensure we have the proper number of rows and columns
+		// proper number of rows and columns
 		assertEquals(NUM_ROWS, board.getNumRows());
 		assertEquals(NUM_COLUMNS, board.getNumColumns());		
 	}
 	
 	
-	// Test a doorway in each direction (RIGHT/LEFT/UP/DOWN), plus 
-		// two cells that are not a doorway.
-		// These cells are white on the planning spreadsheet
+	// Test a doorway in each direction (RIGHT/LEFT/UP/DOWN)
 		@Test
 		public void FourDoorDirections() {
 			
