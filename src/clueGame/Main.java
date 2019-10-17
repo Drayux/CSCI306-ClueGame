@@ -1,16 +1,18 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
+
 //import java.util.Map;
 
 public class Main {
 	//JUnit was failing due to internal errors on my system, so I did the tests this way instead
 	/*public static final int LEGEND_SIZE = 11;
 	public static final int NUM_ROWS = 22;
-	public static final int NUM_COLUMNS = 23;
+	public static final int NUM_COLUMNS = 23;*/
 
 	private static Board board;
 	
-	public static void setUp() {
+	/*public static void setUp() {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
@@ -96,6 +98,31 @@ public class Main {
 		System.out.println('X' == board.getCellAt(9,13).getInitial());
 	}*/
 	
+	/*public static void testBadColumns() throws BadConfigFormatException, FileNotFoundException {
+		// Note that we are using a LOCAL Board variable, because each 
+		// test will load different files
+		Board board = Board.getInstance();
+		board.setConfigFiles("CTest_ClueLayoutBadColumns.csv", "CTest_ClueLegend.txt");
+		// Instead of initialize, we call the two load functions directly.
+		// This is necessary because initialize contains a try-catch. 
+		board.loadRoomConfig();
+		// This one should throw an exception
+		board.loadBoardConfig();
+	}
+	
+	public static void testBadRoom() throws BadConfigFormatException, FileNotFoundException {
+		Board board = Board.getInstance();
+		board.setConfigFiles("CTest_ClueLayoutBadRoom.csv", "CTest_ClueLegend.txt");
+		board.loadRoomConfig();
+		board.loadBoardConfig();
+	}
+	
+	public static void testBadRoomFormat() throws BadConfigFormatException, FileNotFoundException {
+		Board board = Board.getInstance();
+		board.setConfigFiles("CTest_ClueLayout.csv", "CTest_ClueLegendBadFormat.txt");
+		board.loadRoomConfig();
+	}*/
+	
 	public static void main(String[] args) {
 		System.out.println("Hello");
 		
@@ -105,6 +132,9 @@ public class Main {
 		//FourDoorDirections();
 		//testNumberOfDoorways();
 		//testRoomInitials();
+		//testBadColumns();
+		//testBadRoom();
+		//testBadRoomFormat();
 		
 	}
 	

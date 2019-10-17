@@ -85,6 +85,7 @@ public class Board {
 				else if (numColumns != split.length) throw new BadConfigFormatException("Inconsistent number of board columns: " + numColumns + " != " + split.length);
 				
 				for (String cell : split) {
+			    		if (!legend.containsKey(cell.charAt(0))) throw new BadConfigFormatException("Invalid cell value: " + cell.charAt(0));
 					layout.put(index, cell);
 					index++;
 					
@@ -130,6 +131,7 @@ public class Board {
 					legend.put(split[0].charAt(0), split[1]);
 					//Supplimentary testing output
 					//System.out.println("Added " + split[0].charAt(0) + " : " + split[1]);
+					if (!(split[2].equals("Card") || split[2].equals("Other"))) throw new BadConfigFormatException("Invalid room type specification: " + split[2]);
 					
 				} catch (ArrayIndexOutOfBoundsException e) {
 					throw new BadConfigFormatException("Invalid number of room legend parameters: " + split.length);
@@ -251,8 +253,8 @@ public class Board {
 	}
 	public static Board getInstance() { return GAME_INSTANCE; }
 	
-	public Set<BoardCell> getTargets() { return targets; }
+	public Set<BoardCell> getTargets() { return (targets == null) ? null : targets; }
 	public Map<Character, String> getLegend() { return (legend == null) ? null : legend; }
-	public Set<BoardCell> getAdjList(BoardCell c) { return adjacencies.get(c); }
+	public Set<BoardCell> getAdjList(BoardCell c) { return (adjacencies == null) ? null : adjacencies.get(c); }
 	
 }
