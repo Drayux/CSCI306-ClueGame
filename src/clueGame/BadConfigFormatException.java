@@ -13,7 +13,7 @@ public class BadConfigFormatException extends Exception {
 	
 	
 	public BadConfigFormatException(String text) {
-		super("BadConfigFormatException: + text");
+		super("BadConfigFormatException: " + text);
 		
 		
 		try {
