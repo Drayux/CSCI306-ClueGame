@@ -146,7 +146,7 @@ public class Board {
 	private void calcAdjacencies() {
 		//For every cell on the board, calculate a set of all adjacent cells
 		//Store as map in adjacencies
-		for (int i = 0; i < MAX_BOARD_SIZE * MAX_BOARD_SIZE; i++) {
+		for (Integer i : layout.keySet()) {
 			HashSet<BoardCell> adj = new HashSet<>();
 
 			int cellLeft = board[i].getCellLeft(MAX_BOARD_SIZE, numColumns);
