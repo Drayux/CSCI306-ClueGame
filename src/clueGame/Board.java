@@ -110,10 +110,10 @@ public class Board {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			
-		} catch (BadConfigFormatException e) {
+		} /*catch (BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 			
-		} 
+		} */
 	}
 
 	//Load the board legend
@@ -151,10 +151,10 @@ public class Board {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			
-		} catch (BadConfigFormatException e) {
+		} /*catch (BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 			
-		}
+		}*/
 	}
 	
 	//This function should only ever be called once

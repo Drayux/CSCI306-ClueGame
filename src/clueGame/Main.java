@@ -1,14 +1,14 @@
 package clueGame;
 
-import java.io.FileNotFoundException;
+//import java.io.FileNotFoundException;
 
 //import java.util.Map;
 
 public class Main {
 	//JUnit was failing due to internal errors on my system, so I did the tests this way instead
-	/*public static final int LEGEND_SIZE = 11;
-	public static final int NUM_ROWS = 22;
-	public static final int NUM_COLUMNS = 23;*/
+	//public static final int LEGEND_SIZE = 11;
+	//public static final int NUM_ROWS = 22;
+	//public static final int NUM_COLUMNS = 23;
 
 	private static Board board;
 	

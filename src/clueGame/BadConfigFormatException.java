@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 
 
-public class BadConfigFormatException extends Exception {
+public class BadConfigFormatException extends RuntimeException {
 	
 	public BadConfigFormatException() {
 		super();

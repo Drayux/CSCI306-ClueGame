@@ -26,6 +26,7 @@ public class BoardCell {
     public BoardCell(int r, int c, String cell) {
     		row = r;
     		column = c;
+    		cellInitial = cell.charAt(0);
     		
     		if (cell.length() > 1) {
     			switch (cell.charAt(1)) {
