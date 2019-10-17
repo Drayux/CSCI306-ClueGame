@@ -6,8 +6,8 @@ public class BoardCell {
     private int column;
     
     private char cellInitial;
-    private boolean isDoorway;
     private DoorDirection doorDirection;
+    private boolean isDoorway = false;
     
     public BoardCell() {
         row = 0;
@@ -47,13 +47,11 @@ public class BoardCell {
     				doorDirection = DoorDirection.DOWN;
     				break;
 			default:
-				isDoorway = false;
 				doorDirection = DoorDirection.NONE;
 				break;
     			
     			}
     		} else {
-    			isDoorway = false;
 			doorDirection = DoorDirection.NONE;
 			
     		}

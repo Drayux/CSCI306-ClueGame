@@ -55,9 +55,16 @@ public class Board {
 	}
 
 	public void initialize() {
+		loadRoomConfig();
+		loadBoardConfig();
+		
 		//Populate the grid
-		for (Integer i : layout.keySet())
+		for (Integer i : layout.keySet()) {
+			//Supplimentary testing code
+			//System.out.println("Board cell index: " + i);
 			board[i] = new BoardCell(i / MAX_BOARD_SIZE, i % MAX_BOARD_SIZE, layout.get(i));
+			
+		}
 
 		calcAdjacencies();
 
@@ -82,10 +89,12 @@ public class Board {
 					index++;
 					
 				}
+				
+				numRows++;
+				index = MAX_BOARD_SIZE * numRows;
+				line = reader.readLine();
+				
 			}
-			
-			//Assign numRows
-			numRows = index / MAX_BOARD_SIZE;
 			
 			//Final error checking
 			if (numColumns > MAX_BOARD_SIZE) throw new BadConfigFormatException("Number of columns exceeds " + MAX_BOARD_SIZE);
@@ -115,15 +124,19 @@ public class Board {
 			
 			while(line != null) {
 				//Use , as the delimiter in line.split : returns { "C", "Conservatory", "Card" }
-				String[] split = line.split(",");
+				String[] split = line.split(", ");
 				//Error handling
 				try {
 					legend.put(split[0].charAt(0), split[1]);
+					//Supplimentary testing output
+					//System.out.println("Added " + split[0].charAt(0) + " : " + split[1]);
 					
 				} catch (ArrayIndexOutOfBoundsException e) {
 					throw new BadConfigFormatException("Invalid number of room legend parameters: " + split.length);
 					
 				}
+				
+				line = reader.readLine();
 				
 			}
 			
@@ -222,7 +235,7 @@ public class Board {
 
 	public void setConfigFiles(String layout, String legend) {
 		layoutConfigFile = new String(layout);
-		layoutConfigFile = new String(legend);
+		legendConfigFile = new String(legend);
 
 	}
 
@@ -230,7 +243,12 @@ public class Board {
 	public int getNumRows() { return numRows; }
 	public int getNumColumns() { return numColumns; }
 	
-	public BoardCell getCellAt(int r, int j) { return board[r * MAX_BOARD_SIZE + j]; }
+	public BoardCell getCellAt(int r, int j) { 
+		//Supplimentary testing code
+		//System.out.println(r * MAX_BOARD_SIZE + j);
+		return board[r * MAX_BOARD_SIZE + j]; 
+		
+	}
 	public static Board getInstance() { return GAME_INSTANCE; }
 	
 	public Set<BoardCell> getTargets() { return targets; }
