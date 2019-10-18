@@ -164,7 +164,7 @@ public class Board {
 		for (Integer i : layout.keySet()) {
 			HashSet<BoardCell> adj = new HashSet<>();
 
-			int cellLeft = board[i].getCellLeft(MAX_BOARD_SIZE, numColumns);
+			int cellLeft = board[i].getCellLeft(MAX_BOARD_SIZE);
 			int cellUp = board[i].getCellUp(MAX_BOARD_SIZE);
 			int cellRight = board[i].getCellRight(MAX_BOARD_SIZE, numColumns);
 			int cellDown = board[i].getCellDown(MAX_BOARD_SIZE, numRows);
@@ -213,7 +213,7 @@ public class Board {
 			targets.remove(cell);
 			if (checked.contains(cell)) continue;
 
-			int cellLeft = cell.getCellLeft(MAX_BOARD_SIZE, numColumns);
+			int cellLeft = cell.getCellLeft(MAX_BOARD_SIZE);
 			int cellUp = cell.getCellUp(MAX_BOARD_SIZE);
 			int cellRight = cell.getCellRight(MAX_BOARD_SIZE, numColumns);
 			int cellDown = cell.getCellDown(MAX_BOARD_SIZE, numRows);

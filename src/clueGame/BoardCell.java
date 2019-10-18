@@ -69,10 +69,10 @@ public class BoardCell {
     }
     
     //Returns grid array index of cell to the left
-    public int getCellLeft(final int MAX_BOARD_SIZE, final int NUM_COLUMNS) {
+    public int getCellLeft(final int MAX_BOARD_SIZE) {
         int cellIndex = row * MAX_BOARD_SIZE + column;
         
-        if (cellIndex % NUM_COLUMNS > 0) return cellIndex - 1;
+        if (cellIndex % MAX_BOARD_SIZE > 0) return cellIndex - 1;
         return -1;
     }
     
