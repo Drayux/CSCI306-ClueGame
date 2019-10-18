@@ -180,10 +180,15 @@ public class Board {
 
 	}
 
+	public void calcTargets(int r, int c, int pathLength) {
+		calcTargets(getCellAt(r, c), pathLength);
+		
+	}
+	
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		//Calculate all possible locations from a given square
 		//Store as set in targets
-
+		
 		//Supplimentary test output
 		//System.out.println("calcTargets | startCell address: " + startCell + ", pathLength: " + pathLength);
 
@@ -256,5 +261,6 @@ public class Board {
 	public Set<BoardCell> getTargets() { return (targets == null) ? null : targets; }
 	public Map<Character, String> getLegend() { return (legend == null) ? null : legend; }
 	public Set<BoardCell> getAdjList(BoardCell c) { return (adjacencies == null) ? null : adjacencies.get(c); }
+	public Set<BoardCell> getAdjList(int r, int c) { return (adjacencies == null) ? null : adjacencies.get(getCellAt(r, c)); }
 	
 }
