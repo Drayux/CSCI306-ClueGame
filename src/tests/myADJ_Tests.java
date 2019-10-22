@@ -24,7 +24,7 @@ public class myADJ_Tests {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("board_layout.csv", "rooms.txt");		
+		board.setConfigFiles("board_layout.csv", "legend.txt");		
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
