@@ -18,13 +18,10 @@ public class Board {
 	public static final int MAX_BOARD_SIZE = 50;
 
 	private BoardCell[] board;
-	private Map<Integer, String> layout;
-	private Map<Character, String> legend;
+	private Map<Integer, String> boardLayout;
+	private Map<Character, String> boardLegend;
 	private Map<BoardCell, Set<BoardCell>> adjacencies;
 	private Set<BoardCell> targets;
-	//private Set<BoardCell> checked;
-	
-	private BoardCell startCell; // Used in calcTargets
 
 	private String layoutConfigFile;
 	private String legendConfigFile;
@@ -38,8 +35,8 @@ public class Board {
 
 		adjacencies = new HashMap<>();
 
-		layout = new HashMap<>();
-		legend = new HashMap<>();
+		boardLayout = new HashMap<>();
+		boardLegend = new HashMap<>();
 
 		board = new BoardCell[MAX_BOARD_SIZE * MAX_BOARD_SIZE];
 
@@ -50,10 +47,10 @@ public class Board {
 		loadBoardConfig();
 
 		//Populate the grid
-		for (Integer i : layout.keySet()) {
+		for (Integer i : boardLayout.keySet()) {
 			//Supplimentary testing code
 			//System.out.println("Board cell index: " + i);
-			board[i] = new BoardCell(i / MAX_BOARD_SIZE, i % MAX_BOARD_SIZE, layout.get(i));
+			board[i] = new BoardCell(i / MAX_BOARD_SIZE, i % MAX_BOARD_SIZE, boardLayout.get(i));
 
 		}
 
@@ -76,8 +73,9 @@ public class Board {
 				else if (numColumns != split.length) throw new BadConfigFormatException("Inconsistent number of board columns: " + numColumns + " != " + split.length);
 
 				for (String cell : split) {
-					if (!legend.containsKey(cell.charAt(0))) throw new BadConfigFormatException("Invalid cell value: " + cell.charAt(0));
-					layout.put(index, cell);
+					if (!boardLegend.containsKey(cell.charAt(0))) throw new BadConfigFormatException("Invalid cell value: " + cell.charAt(0));
+					boardLayout.put(index, cell);  // This step separates the config loading, from actually using it
+												   // Not required, but organizes the code for me
 					index++;
 
 				}
@@ -120,7 +118,7 @@ public class Board {
 
 				//Error handling
 				try {
-					legend.put(split[0].charAt(0), split[1]);
+					boardLegend.put(split[0].charAt(0), split[1]);
 					//Supplimentary testing output
 					//System.out.println("Added " + split[0].charAt(0) + " : " + split[1]);
 					if (!(split[2].equals("Card") || split[2].equals("Other"))) throw new BadConfigFormatException("Invalid room type specification: " + split[2]);
@@ -135,6 +133,7 @@ public class Board {
 
 			}
 
+			//TODO make sure file reader can close
 			//Attempt to close the file reader
 			reader.close();
 
@@ -154,7 +153,7 @@ public class Board {
 	private void calcAdjacencies() {
 		//For every cell on the board, calculate a set of all adjacent cells
 		//Store as map in adjacencies
-		for (Integer i : layout.keySet()) {
+		for (Integer i : boardLayout.keySet()) {
 			HashSet<BoardCell> adj = new HashSet<>();
 
 			BoardCell cellLeft = board[i].getCellLeft(this);
@@ -174,15 +173,29 @@ public class Board {
 	}
 
 	public void calcTargets(int r, int c, int pathLength) {
-		calcTargets(getCellAt(r, c), pathLength);
+		targets = new HashSet<BoardCell>();
+		
+		BoardCell cell = getCellAt(r, c);
+		Set<BoardCell> checked = new HashSet<>();
+		
+		if (cell != null) calcTargets(cell, pathLength, cell.isDoorway(), checked);
+
+	}
+	
+	public void calcTargets(BoardCell cell, int pathLength) {
+		targets = new HashSet<BoardCell>();
+		
+		Set<BoardCell> checked = new HashSet<>();
+		
+		if (cell != null) calcTargets(cell, pathLength, cell.isDoorway(), checked);
 
 	}
 
-	public void calcTargets(BoardCell startCell, int pathLength) {
+/*	public void calcTargets(BoardCell startCell, int pathLength) {
 		//Calculate all possible locations from a given square
 		//Store as set in targets
 
-		//Supplimentary test output
+		//Supplementary test output
 		//System.out.println("calcTargets | startCell address: " + startCell + ", pathLength: " + pathLength);
 
 		if (pathLength <= 0) return;  //Less than equal is a safety catch on the chance pathLength starts less than 0
@@ -198,7 +211,7 @@ public class Board {
 
 		//Moves targets to an intermediate list for each iteration
 		HashSet<BoardCell> intTargets = new HashSet<>();
-		for (BoardCell cell : targets) if (cell.isWalkway() || startCell != null) intTargets.add(cell); //Walkway check ensures that rooms are a final destination
+		for (BoardCell cell : targets) intTargets.add(cell);
 
 		//for (BoardCell cell : intTargets) System.out.println("intTargets contains: " + cell.getRow() + " " + cell.getColumn());
 
@@ -212,7 +225,7 @@ public class Board {
 			BoardCell cellRight = cell.getCellRight(this);
 			BoardCell cellDown = cell.getCellDown(this);
 
-			//Supplimentary test output
+			//Supplementary test output
 			//System.out.println("intTargets cell: " + (cell.getRow() * 4 + cell.getColumn()));
 			//System.out.println("left " + cellLeft + ", up " + cellUp + ", right " + cellRight + ", down " + cellDown);
 
@@ -226,12 +239,45 @@ public class Board {
 
 		}
 
-		//Supplimentary test output
+		//Supplementary test output
 		//for (BoardCell cell : targets) System.out.println("targets contains: " + (cell.getRow() * 4 + cell.getColumn()));
 		//for (BoardCell cell : checked) System.out.println("checked contains: " + (cell.getRow() * 4 + cell.getColumn()));
 
 		calcTargets(null, pathLength - 1);
 
+	}*/
+	
+	private void calcTargets(BoardCell startCell, int pathLength, boolean checkDoorway, Set<BoardCell> checked) {
+		// Depth-first search to calculate all possible locations from a given square
+		// Store in targets
+		
+		// Depth-first search checks that no cell from the parent search path is added
+		Set<BoardCell> newChecked = new HashSet<BoardCell>(checked);
+		newChecked.add(startCell);
+		
+		// BASE case (triggers when a cell is a "final destination")
+		if (pathLength == 0 || (startCell.isDoorway() && !checkDoorway)) {
+			targets.add(startCell);
+			return;
+			
+		}
+		
+		// Go as far left as possible
+		BoardCell cellLeft = startCell.getCellLeft(this);
+		if (cellLeft != null && !checked.contains(cellLeft)) calcTargets(cellLeft, pathLength - 1, false, newChecked);
+		
+		// Go as far up as possible
+		BoardCell cellUp = startCell.getCellUp(this);
+		if (cellUp != null && !checked.contains(cellUp)) calcTargets(cellUp, pathLength - 1, false, newChecked);
+		
+		// Go as far right as possible
+		BoardCell cellRight = startCell.getCellRight(this);
+		if (cellRight != null && !checked.contains(cellRight)) calcTargets(cellRight, pathLength - 1, false, newChecked);
+		
+		// Go as far down as possible
+		BoardCell cellDown = startCell.getCellDown(this);
+		if (cellDown != null && !checked.contains(cellDown)) calcTargets(cellDown, pathLength - 1, false, newChecked);
+		
 	}
 
 	public void setConfigFiles(String layout, String legend) {
@@ -252,8 +298,8 @@ public class Board {
 	}
 	public static Board getInstance() { return GAME_INSTANCE; }
 
+	public Map<Character, String> getLegend() { return (boardLegend == null) ? null : boardLegend; }
 	public Set<BoardCell> getTargets() { return (targets == null) ? null : targets; }
-	public Map<Character, String> getLegend() { return (legend == null) ? null : legend; }
 	public Set<BoardCell> getAdjList(BoardCell c) { return (adjacencies == null) ? null : adjacencies.get(c); }
 	public Set<BoardCell> getAdjList(int r, int c) { return (adjacencies == null) ? null : adjacencies.get(getCellAt(r, c)); }
 
