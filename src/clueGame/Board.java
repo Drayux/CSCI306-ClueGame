@@ -251,7 +251,7 @@ public class Board {
 		// Depth-first search to calculate all possible locations from a given square
 		// Store in targets
 		
-		// 
+		// Depth-first search checks that no cell from the parent search path is added
 		Set<BoardCell> newChecked = new HashSet<BoardCell>(checked);
 		newChecked.add(startCell);
 		
@@ -262,15 +262,19 @@ public class Board {
 			
 		}
 		
+		// Go as far left as possible
 		BoardCell cellLeft = startCell.getCellLeft(this);
 		if (cellLeft != null && !checked.contains(cellLeft)) calcTargets(cellLeft, pathLength - 1, false, newChecked);
 		
+		// Go as far up as possible
 		BoardCell cellUp = startCell.getCellUp(this);
 		if (cellUp != null && !checked.contains(cellUp)) calcTargets(cellUp, pathLength - 1, false, newChecked);
 		
+		// Go as far right as possible
 		BoardCell cellRight = startCell.getCellRight(this);
 		if (cellRight != null && !checked.contains(cellRight)) calcTargets(cellRight, pathLength - 1, false, newChecked);
 		
+		// Go as far down as possible
 		BoardCell cellDown = startCell.getCellDown(this);
 		if (cellDown != null && !checked.contains(cellDown)) calcTargets(cellDown, pathLength - 1, false, newChecked);
 		
