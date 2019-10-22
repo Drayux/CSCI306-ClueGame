@@ -224,6 +224,7 @@ public class CTest_BoardAdjTargetTests {
 		// Includes a path that doesn't have enough length
 		board.calcTargets(14, 0, 4);
 		targets= board.getTargets();
+		for (BoardCell i : targets) System.out.println("Row: " + i.getRow() + ", Column: " + i.getColumn());
 		assertEquals(4, targets.size());
 		assertTrue(targets.contains(board.getCellAt(14, 4)));
 		assertTrue(targets.contains(board.getCellAt(15, 3)));	
