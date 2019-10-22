@@ -34,16 +34,6 @@ public class Board {
 
 	private Board() {
 
-		/*/Got help from fellow students who also ran into Null pointer Exception.
-		// They suggested 'Their fix"  for the problem which was this method below
-		legend = new HashMap<Character,String>();
-		board = new BoardCell[MAX_BOARDSIZE][MAX_BOARDSIZE];
-		for(int i = 0; i < MAX_BOARDSIZE; i ++) {
-			for(int j = 0; j < MAX_BOARDSIZE; j ++) {
-				board[i][j] = new BoardCell(i,j);
-
-			}
-		}*/
 		adjacencies = new HashMap<>();
 		checked = new HashSet<>();
 		
