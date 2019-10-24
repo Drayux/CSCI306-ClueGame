@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Board {
 
-	private int numRows = 0;  // Initialize to zero for an uninitialized board
+	private int numRows = 0;     // Initialize to zero for an uninitialized board
 	private int numColumns = 0;  // Initialize to zero for an uninitialized board
 
 	public static final int MAX_BOARD_SIZE = 50;
@@ -119,7 +119,7 @@ public class Board {
 				//Error handling
 				try {
 					boardLegend.put(split[0].charAt(0), split[1]);
-					//Supplimentary testing output
+					//Supplementary testing output
 					//System.out.println("Added " + split[0].charAt(0) + " : " + split[1]);
 					if (!(split[2].equals("Card") || split[2].equals("Other"))) throw new BadConfigFormatException("Invalid room type specification: " + split[2]);
 					if (split[1].equalsIgnoreCase("walkway")) BoardCell.setWalkwayInitial(split[0].charAt(0));
@@ -169,7 +169,6 @@ public class Board {
 			adjacencies.put(board[i], adj);
 
 		}
-
 	}
 
 	public void calcTargets(int r, int c, int pathLength) {
@@ -190,62 +189,6 @@ public class Board {
 		if (cell != null) calcTargets(cell, pathLength, cell.isDoorway(), checked);
 
 	}
-
-/*	public void calcTargets(BoardCell startCell, int pathLength) {
-		//Calculate all possible locations from a given square
-		//Store as set in targets
-
-		//Supplementary test output
-		//System.out.println("calcTargets | startCell address: " + startCell + ", pathLength: " + pathLength);
-
-		if (pathLength <= 0) return;  //Less than equal is a safety catch on the chance pathLength starts less than 0
-
-		if (startCell != null) {
-			targets = new HashSet<>();
-			targets.add(startCell);
-
-			//checked = new HashSet<>();
-			this.startCell = startCell;
-
-		}
-
-		//Moves targets to an intermediate list for each iteration
-		HashSet<BoardCell> intTargets = new HashSet<>();
-		for (BoardCell cell : targets) intTargets.add(cell);
-
-		//for (BoardCell cell : intTargets) System.out.println("intTargets contains: " + cell.getRow() + " " + cell.getColumn());
-
-		//Adds every cell to targets that stemmed from the previous
-		for (BoardCell cell : intTargets) {
-			targets.remove(cell);
-			//if (checked.contains(cell)) continue;
-
-			BoardCell cellLeft = cell.getCellLeft(this);
-			BoardCell cellUp = cell.getCellUp(this);
-			BoardCell cellRight = cell.getCellRight(this);
-			BoardCell cellDown = cell.getCellDown(this);
-
-			//Supplementary test output
-			//System.out.println("intTargets cell: " + (cell.getRow() * 4 + cell.getColumn()));
-			//System.out.println("left " + cellLeft + ", up " + cellUp + ", right " + cellRight + ", down " + cellDown);
-
-			//Note the order of the conditions 
-			if (cellLeft != null && cellLeft != this.startCell && !targets.contains(cellLeft)) targets.add(cellLeft);  //Check square to left
-			if (cellUp != null && cellUp != this.startCell && !targets.contains(cellUp)) targets.add(cellUp);  //Check square above
-			if (cellRight != null && cellRight != this.startCell && !targets.contains(cellRight)) targets.add(cellRight);  //Check square to right
-			if (cellDown != null && cellDown != this.startCell && !targets.contains(cellDown)) targets.add(cellDown);  //Check square below
-
-			//checked.add(cell);
-
-		}
-
-		//Supplementary test output
-		//for (BoardCell cell : targets) System.out.println("targets contains: " + (cell.getRow() * 4 + cell.getColumn()));
-		//for (BoardCell cell : checked) System.out.println("checked contains: " + (cell.getRow() * 4 + cell.getColumn()));
-
-		calcTargets(null, pathLength - 1);
-
-	}*/
 	
 	private void calcTargets(BoardCell startCell, int pathLength, boolean checkDoorway, Set<BoardCell> checked) {
 		// Depth-first search to calculate all possible locations from a given square
@@ -290,10 +233,10 @@ public class Board {
 	public int getNumRows() { return numRows; }
 	public int getNumColumns() { return numColumns; }
 
-	public BoardCell getCellAt(int r, int j) { 
-		//Supplimentary testing code
+	public BoardCell getCellAt(int r, int c) { 
+		//Supplementary testing code
 		//System.out.println(r * MAX_BOARD_SIZE + j);
-		return board[r * MAX_BOARD_SIZE + j]; 
+		return board[r * MAX_BOARD_SIZE + c]; 
 
 	}
 	public static Board getInstance() { return GAME_INSTANCE; }

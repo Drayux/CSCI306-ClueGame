@@ -63,14 +63,13 @@ public class BoardCell {
 	}
 
 	public int getRow() {
+		
 		return row;
-
 	}
 
 	public int getColumn() {
+		
 		return column;
-
-
 	}
 
 	//Cell functions designed for use with adj/targets functions

@@ -25,7 +25,7 @@ public class myTests {
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
-		board.setConfigFiles("board_layout.csv", "rooms.txt");	
+		board.setConfigFiles("board_layout.csv", "legend.txt");	
 		// Initialize will load BOTH configuration files 
 		board.initialize();
 	}
