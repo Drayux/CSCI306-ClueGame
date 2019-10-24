@@ -1,0 +1,4 @@
+The most significant change we made from our code review was the "Clean up" of our calcTargets function.
+Before the code review this function was bit messy, after the code review we realized that some of our code
+could be condensed to a cleaner less bulky function. We made the changes and successfully changed our 
+CalcTargets function to run smoother without all of the "bulk".
