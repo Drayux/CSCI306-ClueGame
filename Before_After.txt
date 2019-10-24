@@ -1,4 +1,87 @@
+
 The most significant change we made from our code review was the "Clean up" of our calcTargets function.
 Before the code review this function was bit messy, after the code review we realized that some of our code
 could be condensed to a cleaner less bulky function. We made the changes and successfully changed our 
 CalcTargets function to run smoother without all of the "bulk".
+
+
+//OLD CODE CalcTargets
+
+/*	public void calcTargets(BoardCell startCell, int pathLength) {
+		//Calculate all possible locations from a given square
+		//Store as set in targets
+		//Supplementary test output
+		//System.out.println("calcTargets | startCell address: " + startCell + ", pathLength: " + pathLength);
+		if (pathLength <= 0) return;  //Less than equal is a safety catch on the chance pathLength starts less than 0
+		if (startCell != null) {
+			targets = new HashSet<>();
+			targets.add(startCell);
+			//checked = new HashSet<>();
+			this.startCell = startCell;
+		}
+		//Moves targets to an intermediate list for each iteration
+		HashSet<BoardCell> intTargets = new HashSet<>();
+		for (BoardCell cell : targets) intTargets.add(cell);
+		//for (BoardCell cell : intTargets) System.out.println("intTargets contains: " + cell.getRow() + " " + cell.getColumn());
+		//Adds every cell to targets that stemmed from the previous
+		for (BoardCell cell : intTargets) {
+			targets.remove(cell);
+			//if (checked.contains(cell)) continue;
+			BoardCell cellLeft = cell.getCellLeft(this);
+			BoardCell cellUp = cell.getCellUp(this);
+			BoardCell cellRight = cell.getCellRight(this);
+			BoardCell cellDown = cell.getCellDown(this);
+			//Supplementary test output
+			//System.out.println("intTargets cell: " + (cell.getRow() * 4 + cell.getColumn()));
+			//System.out.println("left " + cellLeft + ", up " + cellUp + ", right " + cellRight + ", down " + cellDown);
+			//Note the order of the conditions 
+			if (cellLeft != null && cellLeft != this.startCell && !targets.contains(cellLeft)) targets.add(cellLeft);  //Check square to left
+			if (cellUp != null && cellUp != this.startCell && !targets.contains(cellUp)) targets.add(cellUp);  //Check square above
+			if (cellRight != null && cellRight != this.startCell && !targets.contains(cellRight)) targets.add(cellRight);  //Check square to right
+			if (cellDown != null && cellDown != this.startCell && !targets.contains(cellDown)) targets.add(cellDown);  //Check square below
+			//checked.add(cell);
+		}
+		//Supplementary test output
+		//for (BoardCell cell : targets) System.out.println("targets contains: " + (cell.getRow() * 4 + cell.getColumn()));
+		//for (BoardCell cell : checked) System.out.println("checked contains: " + (cell.getRow() * 4 + cell.getColumn()));
+		calcTargets(null, pathLength - 1);
+	}*/
+	
+	
+	
+	
+	//New code CalcTargets
+	
+	
+	private void calcTargets(BoardCell startCell, int pathLength, boolean checkDoorway, Set<BoardCell> checked) {
+		// Depth-first search to calculate all possible locations from a given square
+		// Store in targets
+		
+		// Depth-first search checks that no cell from the parent search path is added
+		Set<BoardCell> newChecked = new HashSet<BoardCell>(checked);
+		newChecked.add(startCell);
+		
+		// BASE case (triggers when a cell is a "final destination")
+		if (pathLength == 0 || (startCell.isDoorway() && !checkDoorway)) {
+			targets.add(startCell);
+			return;
+			
+		}
+		
+		// Go as far left as possible
+		BoardCell cellLeft = startCell.getCellLeft(this);
+		if (cellLeft != null && !checked.contains(cellLeft)) calcTargets(cellLeft, pathLength - 1, false, newChecked);
+		
+		// Go as far up as possible
+		BoardCell cellUp = startCell.getCellUp(this);
+		if (cellUp != null && !checked.contains(cellUp)) calcTargets(cellUp, pathLength - 1, false, newChecked);
+		
+		// Go as far right as possible
+		BoardCell cellRight = startCell.getCellRight(this);
+		if (cellRight != null && !checked.contains(cellRight)) calcTargets(cellRight, pathLength - 1, false, newChecked);
+		
+		// Go as far down as possible
+		BoardCell cellDown = startCell.getCellDown(this);
+		if (cellDown != null && !checked.contains(cellDown)) calcTargets(cellDown, pathLength - 1, false, newChecked);
+		
+	}
