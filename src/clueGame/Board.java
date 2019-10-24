@@ -143,7 +143,10 @@ public class Board {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 
+		} 
 	}
+	
+	
 
 	//This function should only ever be called once
 	private void calcAdjacencies() {
@@ -166,6 +169,7 @@ public class Board {
 
 		}
 	}
+	
 
 	public void calcTargets(int r, int c, int pathLength) {
 		targets = new HashSet<BoardCell>();
@@ -177,6 +181,7 @@ public class Board {
 
 	}
 	
+	
 	public void calcTargets(BoardCell cell, int pathLength) {
 		targets = new HashSet<BoardCell>();
 		
@@ -185,6 +190,7 @@ public class Board {
 		if (cell != null) calcTargets(cell, pathLength, cell.isDoorway(), checked);
 
 	}
+	
 	
 	private void calcTargets(BoardCell startCell, int pathLength, boolean checkDoorway, Set<BoardCell> checked) {
 		// Depth-first search to calculate all possible locations from a given square
@@ -218,6 +224,7 @@ public class Board {
 		if (cellDown != null && !checked.contains(cellDown)) calcTargets(cellDown, pathLength - 1, false, newChecked);
 		
 	}
+	
 
 	public void setConfigFiles(String layout, String legend) {
 		layoutConfigFile = new String(layout);
@@ -235,6 +242,7 @@ public class Board {
 		return board[r * MAX_BOARD_SIZE + c]; 
 
 	}
+	
 	public static Board getInstance() { return GAME_INSTANCE; }
 
 	public Map<Character, String> getLegend() { return (boardLegend == null) ? null : boardLegend; }
