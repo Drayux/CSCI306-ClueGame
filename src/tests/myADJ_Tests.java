@@ -188,7 +188,7 @@ public class myADJ_Tests {
 	// and beside room
 	// Have already tested adjacency lists on all four edges, will
 	// only test two edges here
-	// These are LIGHT BLUE on the planning spreadsheet
+	// These are Orange on the planning spreadsheet
 	@Test
 	public void testTargetsOneStep() {
 		board.calcTargets(19, 10, 1); 
@@ -206,7 +206,7 @@ public class myADJ_Tests {
 	}
 	
 	// Tests of just walkways, 2 steps
-	// These are LIGHT BLUE on the planning spreadsheet
+	// These are Orange on the planning spreadsheet
 	@Test
 	public void testTargetsTwoSteps() {
 		board.calcTargets(19, 10, 2);
@@ -345,7 +345,7 @@ public class myADJ_Tests {
 	}
 
 	// Test getting out of a room
-	// These are LIGHT BLUE on the planning spreadsheet
+	// These are ORange on the planning spreadsheet
 	@Test
 	public void testRoomExit()
 	{
