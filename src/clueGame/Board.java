@@ -143,10 +143,6 @@ public class Board {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 
-		} /*catch (BadConfigFormatException e) {
-			System.out.println(e.getMessage());
-
-		}*/
 	}
 
 	//This function should only ever be called once
