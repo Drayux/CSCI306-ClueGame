@@ -43,8 +43,17 @@ public class Board {
 	}
 
 	public void initialize() {
-		loadRoomConfig();
-		loadBoardConfig();
+		try {
+			loadRoomConfig();
+			loadBoardConfig();
+			
+		} catch (BadConfigFormatException e) {
+			System.out.println(e.getMessage());
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+
+		}
 
 		//Populate the grid
 		for (Integer i : boardLayout.keySet()) {
@@ -106,12 +115,16 @@ public class Board {
 	}
 
 	//Load the board legend
-	public void loadRoomConfig() {
+	public void loadRoomConfig() throws IOException, BadConfigFormatException {
+		BufferedReader reader = null;
+		String line = null;
+		
+		//Large try block to ensure file will be closed on any exception
 		try {
-			//Open the file reader
-			BufferedReader reader = new BufferedReader(new FileReader(legendConfigFile));
-			String line = reader.readLine();
-
+			//Attempt to open the reader
+			reader = new BufferedReader(new FileReader(legendConfigFile));
+			line = reader.readLine();
+			
 			while(line != null) {
 				//Use , as the delimiter in line.split : returns { "C", "Conservatory", "Card" }
 				String[] split = line.split(", ");
@@ -125,25 +138,26 @@ public class Board {
 					if (split[1].equalsIgnoreCase("walkway")) BoardCell.setWalkwayInitial(split[0].charAt(0));
 
 				} catch (ArrayIndexOutOfBoundsException e) {
+					
 					throw new BadConfigFormatException("Invalid number of room legend parameters: " + split.length);
-
 				}
 
 				line = reader.readLine();
 
 			}
-
-			//TODO make sure file reader can close
-			//Attempt to close the file reader
-			reader.close();
-
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-
-		} 
+		} finally {
+			if (reader != null) {
+				try {
+					//Attempt to close the reader
+					reader.close();
+					
+				} catch (IOException e) {
+					//This error is handled here so as to not suppress other (more important) errors
+					System.out.println(e.getMessage());
+					
+				}
+			}
+		}
 	}
 	
 	

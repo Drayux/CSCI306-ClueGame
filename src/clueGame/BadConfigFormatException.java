@@ -24,7 +24,7 @@ public class BadConfigFormatException extends RuntimeException {
 			
 			
 		
-		}catch(FileNotFoundException e) {
+		} catch(FileNotFoundException e) {
 			System.out.println("No File");
 		}
 		
