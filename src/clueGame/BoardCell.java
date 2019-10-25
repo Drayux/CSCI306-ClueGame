@@ -8,7 +8,7 @@ public class BoardCell {
 	private static char walkwayInitial = 0;
 
 	private char cellInitial;
-	private DoorDirection doorDirection;
+	private DoorDirection doorDirection = DoorDirection.NONE;
 	private boolean isDoorway = false;
 	private boolean isWalkway = false;
 
@@ -31,45 +31,35 @@ public class BoardCell {
 		column = c;
 		cellInitial = cell.charAt(0);
 
-		if (cellInitial == walkwayInitial) isWalkway = true;
+		if (cellInitial == walkwayInitial) {
+			isWalkway = true;
+			
+			//A walkway will never be a doorway (if so the board is incorrectly formatted)
+			return;
+		}
 
 		if (cell.length() > 1) {
+			isDoorway = true;
 			switch (cell.charAt(1)) {
 			case 'L':
-				isDoorway = true;
 				doorDirection = DoorDirection.LEFT;
 				break;
 			case 'U':
-				isDoorway = true;
 				doorDirection = DoorDirection.UP;
 				break;
 			case 'R':
-				isDoorway = true;
 				doorDirection = DoorDirection.RIGHT;
 				break;
 			case 'D':
-				isDoorway = true;
 				doorDirection = DoorDirection.DOWN;
 				break;
 			default:
+				isDoorway = false;
 				doorDirection = DoorDirection.NONE;
 				break;
 
 			}
-		} else {
-			doorDirection = DoorDirection.NONE;
-
-		}
-	}
-
-	public int getRow() {
-		
-		return row;
-	}
-
-	public int getColumn() {
-		
-		return column;
+		} 
 	}
 
 	//Cell functions designed for use with adj/targets functions
@@ -165,6 +155,9 @@ public class BoardCell {
 	}
 
 	//Getters
+	public int getRow() { return row; }
+	public int getColumn() { return column; }
+	
 	public char getInitial() { return cellInitial; }
 	public DoorDirection getDoorDirection() { return doorDirection; }
 	public boolean isDoorway() { return isDoorway; }
