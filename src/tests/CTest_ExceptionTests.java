@@ -5,7 +5,6 @@ package tests;
  * are thrown appropriately.
  */
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.junit.Test;

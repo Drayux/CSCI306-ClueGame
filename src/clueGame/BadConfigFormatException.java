@@ -3,9 +3,10 @@ package clueGame;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 
-
 public class BadConfigFormatException extends RuntimeException {
 	
+	private static final long serialVersionUID = 1L;
+
 	public BadConfigFormatException() {
 		super();
 		

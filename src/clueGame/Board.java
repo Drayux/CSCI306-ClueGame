@@ -7,7 +7,6 @@ import java.util.HashSet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Board {
@@ -57,7 +56,7 @@ public class Board {
 
 		//Populate the grid
 		for (Integer i : boardLayout.keySet()) {
-			//Supplimentary testing code
+			//Supplementary testing code
 			//System.out.println("Board cell index: " + i);
 			board[i] = new BoardCell(i / MAX_BOARD_SIZE, i % MAX_BOARD_SIZE, boardLayout.get(i));
 
