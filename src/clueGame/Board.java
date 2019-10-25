@@ -68,11 +68,15 @@ public class Board {
 	}
 
 	//Load the board layout
-	public void loadBoardConfig() {
+	public void loadBoardConfig() throws IOException, BadConfigFormatException {
+		BufferedReader reader = null;
+		String line = null;
+		
+		//Large try block to ensure file will be closed on any exception
 		try {
-			//Open the file reader
-			BufferedReader reader = new BufferedReader(new FileReader(layoutConfigFile));
-			String line = reader.readLine();
+			//Attempt to open the file reader
+			reader = new BufferedReader(new FileReader(layoutConfigFile));
+			line = reader.readLine();
 			int index = 0;
 
 			while(line != null) {
@@ -84,7 +88,7 @@ public class Board {
 				for (String cell : split) {
 					if (!boardLegend.containsKey(cell.charAt(0))) throw new BadConfigFormatException("Invalid cell value: " + cell.charAt(0));
 					boardLayout.put(index, cell);  // This step separates the config loading, from actually using it
-												   // Not required, but organizes the code for me
+												  // Not required, but organizes the code for me
 					index++;
 
 				}
@@ -99,19 +103,19 @@ public class Board {
 			if (numColumns > MAX_BOARD_SIZE) throw new BadConfigFormatException("Number of columns exceeds " + MAX_BOARD_SIZE);
 			if (numRows > MAX_BOARD_SIZE) throw new BadConfigFormatException("Number of rows exceeds " + MAX_BOARD_SIZE);
 
-			//Attempt to close the file reader
-			reader.close();
-
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-
-		} /*catch (BadConfigFormatException e) {
-			System.out.println(e.getMessage());
-
-		} */
+		} finally {
+			if (reader != null) {
+				try {
+					//Attempt to close the reader
+					reader.close();
+					
+				} catch (IOException e) {
+					//This error is handled here so as to not suppress other (more important) errors
+					System.out.println(e.getMessage());
+					
+				}
+			}
+		}
 	}
 
 	//Load the board legend
