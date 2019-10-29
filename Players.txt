@@ -1,0 +1,6 @@
+Colonel Mustard, 244, 230, 40, 0, 7, computer
+Miss Scarlet, 146, 65, 84, 0, 15, computer
+Mr. Green,  156, 244, 40, 6, 22, computer
+Mrs. Peacock, 0, 255, 255, 19, 16, computer
+Mrs. White, 255, 255, 255, 19, 10, player
+Professor Plum, 221, 160, 221, 19, 1, computer
