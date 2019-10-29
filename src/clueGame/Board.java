@@ -24,6 +24,8 @@ public class Board {
 
 	private String layoutConfigFile;
 	private String legendConfigFile;
+	private String playerConfigFile;
+	private String weaponConfigFile;
 
 
 	//Variable used for singleton pattern
@@ -242,13 +244,35 @@ public class Board {
 		
 	}
 	
-
+	//DEPRICATED - USED IN OLD TESTS
+	@Deprecated
 	public void setConfigFiles(String layout, String legend) {
 		layoutConfigFile = new String(layout);
 		legendConfigFile = new String(legend);
 
 	}
 
+	public void setConfig(ConfigType type, String fileName) {
+		switch (type) {
+		case BOARD:
+			layoutConfigFile = new String(fileName);
+			break;
+			
+		case LEGEND:
+			legendConfigFile = new String(fileName);
+			break;
+		
+		case PLAYER:
+			playerConfigFile = new String(fileName);
+			break;
+			
+		case WEAPON:
+			weaponConfigFile = new String(fileName);
+			break;
+			
+		}
+	}
+	
 	//Simple getters
 	public int getNumRows() { return numRows; }
 	public int getNumColumns() { return numColumns; }
