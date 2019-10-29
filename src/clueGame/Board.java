@@ -32,7 +32,7 @@ public class Board {
 	private Set<BoardCell> targets;
 
 	private Player[] players = new Player[MAX_PLAYERS_COUNT];
-	private Solution gameSolution;
+	private Solution gameSolution = new Solution();
 	private Set<Card> deck = new HashSet<Card>();
 	
 	private String layoutConfigFile;
@@ -71,17 +71,20 @@ public class Board {
 
 		}
 
-		//Populate the grid
+		// Populate the grid
 		for (Integer i : boardLayout.keySet()) {
-			//Supplementary testing code
-			//System.out.println("Board cell index: " + i);
+			// Supplementary testing code
+			// System.out.println("Board cell index: " + i);
 			board[i] = new BoardCell(i / MAX_BOARD_SIZE, i % MAX_BOARD_SIZE, boardLayout.get(i));
 
 		}
 
 		calcAdjacencies();
 
-		//Generate a solution
+		// Generate a solution
+		// TODO FINSH THIS
+		
+		// Deal the cards
 		
 	}
 
@@ -141,6 +144,8 @@ public class Board {
 		BufferedReader reader = null;
 		String line = null;
 		
+		double rand = Math.random() * MAX_ROOMS_COUNT;
+		
 		//Large try block to ensure file will be closed on any exception
 		try {
 			//Attempt to open the reader
@@ -163,7 +168,8 @@ public class Board {
 						//Checks for appropriate number of rooms, adds to deck
 						if (numRooms == MAX_ROOMS_COUNT) throw new BadConfigFormatException("Invalid number of rooms: " + (numRooms + 1));
 						
-						deck.add(new Card(CardType.ROOM, split[1]));
+						if (numRooms == Math.floor(rand)) gameSolution.setRoom(new Card(CardType.ROOM, split[1]));
+						else deck.add(new Card(CardType.ROOM, split[1]));
 						numRooms++;
 						
 					}
@@ -202,6 +208,8 @@ public class Board {
 		String line = null;
 		Player player = null;
 		
+		double rand = Math.random() * MAX_PLAYERS_COUNT;
+		
 		//Large try block to ensure file will be closed on any exception
 		try {
 			//Attempt to open the reader
@@ -220,7 +228,9 @@ public class Board {
 					else if (split[6].equals("Player")) player = new HumanPlayer(split[0], Integer.parseInt(split[4]), Integer.parseInt(split[5]), new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
 					
 					players[numPlayers] = player;
-					deck.add(new Card(CardType.PERSON, split[0]));
+					
+					if (numPlayers == Math.floor(rand)) gameSolution.setPerson(new Card(CardType.PERSON, split[0]));
+					else deck.add(new Card(CardType.PERSON, split[0]));
 					numPlayers++;
 
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -258,6 +268,8 @@ public class Board {
 		String line = null;
 		Card weapon = null;
 		
+		double rand = Math.random() * MAX_WEAPONS_COUNT;
+		
 		//Large try block to ensure file will be closed on any exception
 		try {
 			//Attempt to open the reader
@@ -267,7 +279,8 @@ public class Board {
 			while(line != null) {
 				if (numWeapons == MAX_WEAPONS_COUNT) throw new BadConfigFormatException("Invalid number of weapons: " + (numWeapons + 1));
 				
-				deck.add(new Card(CardType.WEAPON, line));
+				if (numWeapons == Math.floor(rand)) gameSolution.setWeapon(new Card(CardType.WEAPON, line));
+				else deck.add(new Card(CardType.WEAPON, line));
 				numWeapons++;
 
 				line = reader.readLine();
