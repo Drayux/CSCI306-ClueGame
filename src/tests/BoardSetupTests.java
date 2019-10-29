@@ -12,7 +12,7 @@ import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
 
-public class myTests {
+public class BoardSetupTests {
 	
 	// Constants that I will use to test whether the file was loaded correctly
 	public static final int LEGEND_SIZE = 11;
@@ -25,7 +25,7 @@ public class myTests {
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
-		board.setConfigFiles("board_layout.csv", "legend.txt");	
+		board.setConfigFiles("config/board.csv", "config/legend.txt");	
 		// Initialize will load BOTH configuration files 
 		board.initialize();
 	}

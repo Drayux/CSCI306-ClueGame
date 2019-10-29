@@ -15,7 +15,7 @@ import org.junit.Test;
 import clueGame.Board;
 import clueGame.BoardCell;
 
-public class myADJ_Tests {
+public class AdjacencyTargetTests {
 	// We make the Board static because we can load it one time and 
 	// then do all the tests. 
 	private static Board board;
@@ -24,7 +24,7 @@ public class myADJ_Tests {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("board_layout.csv", "legend.txt");		
+		board.setConfigFiles("config/board.csv", "config/legend.txt");		
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
