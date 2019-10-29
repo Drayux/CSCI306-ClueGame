@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
@@ -80,8 +81,6 @@ public class Board {
 		}
 
 		calcAdjacencies();
-		
-		// Deal the cards
 		
 	}
 
@@ -403,6 +402,30 @@ public class Board {
 		case WEAPON:
 			weaponConfigFile = new String(fileName);
 			break;
+			
+		}
+	}
+	
+	public void dealCards() {
+		int i = 0;
+		int size = deck.size();
+		ArrayList<Card> intDeck = new ArrayList<Card>(deck);
+		ArrayList<Card> randDeck = new ArrayList<Card>();
+		
+		for (int j = 0; j < size; j++) {
+			int rand = (int) Math.floor(Math.random() * intDeck.size());
+			
+			Card c = intDeck.get(rand);
+			intDeck.remove(rand);
+			randDeck.add(c);
+			
+		}
+		
+		for (Card c : randDeck) {
+			getPlayer(i).takeCard(c);
+			deck.remove(c);
+			
+			i++;
 			
 		}
 	}

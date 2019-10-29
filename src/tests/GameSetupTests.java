@@ -9,10 +9,12 @@ import clueGame.HumanPlayer;
 import clueGame.Player;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import java.awt.Color;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.BeforeClass;
@@ -124,8 +126,12 @@ public class GameSetupTests {
 		
 	}
 	
+	// These tests test that the deck has appropriately been dealed to the 6 players
+	// and that each player does not share a card with another
 	@Test
 	public void testDealingOfCards() {
+		board.dealCards();
+		
 		Player firstPlayer = board.getPlayer(0);
 		Player secondPlayer = board.getPlayer(1);
 		Player thirdPlayer = board.getPlayer(2);
@@ -133,13 +139,58 @@ public class GameSetupTests {
 		Player fifthPlayer = board.getPlayer(4); // This is the human player
 		Player sixthPlayer = board.getPlayer(5);
 		
-		assertTrue(firstPlayer.getHand().size() == 3);
-		assertTrue(secondPlayer.getHand().size() == 3);
-		assertTrue(thirdPlayer.getHand().size() == 3);
-		assertTrue(fourthPlayer.getHand().size() == 3);
-		assertTrue(fifthPlayer.getHand().size() == 3);
-		assertTrue(sixthPlayer.getHand().size() == 3);
+		Set<Card> cardsDealt = new HashSet<Card>();
 		
+		// Check that each player has 3 or 4 cards (as there are 21 in the deck)
+		assertTrue(firstPlayer.getHand().size() == 3 || firstPlayer.getHand().size() == 4);
+		assertTrue(secondPlayer.getHand().size() == 3 || secondPlayer.getHand().size() == 4);
+		assertTrue(thirdPlayer.getHand().size() == 3 || thirdPlayer.getHand().size() == 4);
+		assertTrue(fourthPlayer.getHand().size() == 3 || fourthPlayer.getHand().size() == 4);
+		assertTrue(fifthPlayer.getHand().size() == 3 || fifthPlayer.getHand().size() == 4);
+		assertTrue(sixthPlayer.getHand().size() == 3 || sixthPlayer.getHand().size() == 4);
+		
+		// Check cards of first player
+		for (Card c : firstPlayer.getHand()) {
+			assertFalse(cardsDealt.contains(c));
+			cardsDealt.add(c);
+			
+		}
+		
+		// Check cards of second player
+		for (Card c : secondPlayer.getHand()) {
+			assertFalse(cardsDealt.contains(c));
+			cardsDealt.add(c);
+			
+		}
+		
+		// Check cards of third player
+		for (Card c : thirdPlayer.getHand()) {
+			assertFalse(cardsDealt.contains(c));
+			cardsDealt.add(c);
+			
+		}
+		
+		// Check cards of fourth player
+		for (Card c : fourthPlayer.getHand()) {
+			assertFalse(cardsDealt.contains(c));
+			cardsDealt.add(c);
+			
+		}
+		
+		// Check cards of fifth player
+		for (Card c : fifthPlayer.getHand()) {
+			assertFalse(cardsDealt.contains(c));
+			cardsDealt.add(c);
+			
+		}
+		
+		// Check cards of sixth player
+		for (Card c : sixthPlayer.getHand()) {
+			assertFalse(cardsDealt.contains(c));
+			cardsDealt.add(c);
+			
+		}
+				
 	}
 	
 	
