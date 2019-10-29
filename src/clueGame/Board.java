@@ -200,13 +200,12 @@ public class Board {
 	public void loadPlayerConfig() throws IOException, BadConfigFormatException {
 		BufferedReader reader = null;
 		String line = null;
-		
-		Player player;
+		Player player = null;
 		
 		//Large try block to ensure file will be closed on any exception
 		try {
 			//Attempt to open the reader
-			reader = new BufferedReader(new FileReader(legendConfigFile));
+			reader = new BufferedReader(new FileReader(playerConfigFile));
 			line = reader.readLine();
 			
 			while(line != null) {
@@ -227,6 +226,9 @@ public class Board {
 				} catch (ArrayIndexOutOfBoundsException e) {
 					
 					throw new BadConfigFormatException("Invalid number of player config parameters: " + split.length);
+				} catch (NumberFormatException e) {
+					
+					throw new BadConfigFormatException("Invalid player config spacing format: " + split.length);
 				}
 
 				line = reader.readLine();

@@ -43,6 +43,8 @@ public class GameSetupTests {
 		Player fifthPlayer = board.getPlayer(4); // This is the human player
 		Player sixthPlayer = board.getPlayer(5);
 		
+		System.out.println(firstPlayer);
+		
 		// Name tests ensuring the names of our players meet the text file
 		assertEquals(firstPlayer.getPlayerName(), "Colonel Mustard");
 		assertEquals(secondPlayer.getPlayerName(), "Miss Scarlet");
