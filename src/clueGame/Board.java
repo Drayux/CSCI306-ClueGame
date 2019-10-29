@@ -80,9 +80,6 @@ public class Board {
 		}
 
 		calcAdjacencies();
-
-		// Generate a solution
-		// TODO FINSH THIS
 		
 		// Deal the cards
 		
