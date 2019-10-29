@@ -46,8 +46,6 @@ public class GameSetupTests {
 		Player fifthPlayer = board.getPlayer(4); // This is the human player
 		Player sixthPlayer = board.getPlayer(5);
 		
-		System.out.println(firstPlayer);
-		
 		// Name tests ensuring the names of our players meet the text file
 		assertEquals(firstPlayer.getPlayerName(), "Colonel Mustard");
 		assertEquals(secondPlayer.getPlayerName(), "Miss Scarlet");
@@ -89,36 +87,61 @@ public class GameSetupTests {
 	public void testDeckOfCards() {
 		Set<Card> deck = board.getGameDeck();
 		
-		assertEquals(deck.size(), 21);
+		assertEquals(deck.size(), 18);
 		
+		// Because the cards *only* exist in the deck, we need to be sure that the contents of every card it the deck
+		// matches that of those we know are in our text files, nothing more, nothing less.
+		
+		// This checks every card in the deck across every card (initialed with its type and name) and compares
+		// their member variables for equivalence.
 		for (Card c : deck) {
 			assertTrue(
 					c.equals(new Card(CardType.ROOM, "Asylum")) ||
-					c.equals(new Card(CardType.ROOM, "Asylum")) ||
-					c.equals(new Card(CardType.ROOM, "Asylum")) ||
-					c.equals(new Card(CardType.ROOM, "Asylum")) ||
-					c.equals(new Card(CardType.ROOM, "Asylum")) ||
-					c.equals(new Card(CardType.ROOM, "Asylum")) ||
-					c.equals(new Card(CardType.ROOM, "Asylum")) ||
-					c.equals(new Card(CardType.ROOM, "Asylum")) ||
-					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					c.equals(new Card(CardType.ROOM, "Kitchen")) ||
+					c.equals(new Card(CardType.ROOM, "Butcher's Bedroom")) ||
+					c.equals(new Card(CardType.ROOM, "Hotbox")) ||
+					c.equals(new Card(CardType.ROOM, "Entry")) ||
+					c.equals(new Card(CardType.ROOM, "Studio")) ||
+					c.equals(new Card(CardType.ROOM, "Dining Room")) ||
+					c.equals(new Card(CardType.ROOM, "Arena")) ||
+					c.equals(new Card(CardType.ROOM, "Underwear Repair")) ||
 					
 					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
-					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
-					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
-					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
-					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
-					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
+					c.equals(new Card(CardType.PERSON, "Miss Scarlet")) ||
+					c.equals(new Card(CardType.PERSON, "Mr. Green")) ||
+					c.equals(new Card(CardType.PERSON, "Mrs. Peacock")) ||
+					c.equals(new Card(CardType.PERSON, "Mrs. White")) ||
+					c.equals(new Card(CardType.PERSON, "Professor Plum")) ||
 					
 					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
-					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
-					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
-					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
-					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
-					c.equals(new Card(CardType.WEAPON, "Light Saber")));
+					c.equals(new Card(CardType.WEAPON, "Plasma Rifle")) ||
+					c.equals(new Card(CardType.WEAPON, "Throwing Hatchets")) ||
+					c.equals(new Card(CardType.WEAPON, "Rusty Knife")) ||
+					c.equals(new Card(CardType.WEAPON, "SCAR 17-H")) ||
+					c.equals(new Card(CardType.WEAPON, "Chain Saw")));
 			
 		}
 		
 	}
+	
+	@Test
+	public void testDealingOfCards() {
+		Player firstPlayer = board.getPlayer(0);
+		Player secondPlayer = board.getPlayer(1);
+		Player thirdPlayer = board.getPlayer(2);
+		Player fourthPlayer = board.getPlayer(3);
+		Player fifthPlayer = board.getPlayer(4); // This is the human player
+		Player sixthPlayer = board.getPlayer(5);
+		
+		assertTrue(firstPlayer.getHand().size() == 3);
+		assertTrue(secondPlayer.getHand().size() == 3);
+		assertTrue(thirdPlayer.getHand().size() == 3);
+		assertTrue(fourthPlayer.getHand().size() == 3);
+		assertTrue(fifthPlayer.getHand().size() == 3);
+		assertTrue(sixthPlayer.getHand().size() == 3);
+		
+	}
+	
+	
 	
 }

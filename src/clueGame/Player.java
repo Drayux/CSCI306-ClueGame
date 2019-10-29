@@ -1,6 +1,8 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Player {
 	
@@ -9,6 +11,7 @@ public abstract class Player {
 	private int column;
 	private Color color;
 	
+	private Set<Card> hand = new HashSet<Card>();
 	
 	
 	public Player(String playerName, int row, int column, Color color) {
@@ -32,6 +35,16 @@ public abstract class Player {
 	
 	public BoardCell getPlayerLocation() {
 		return Board.getInstance().getCellAt(row, column);
+	}
+	
+	public void takeCard(Card card) {
+		hand.add(card);
+		
+	}
+	
+	public Set<Card> getHand() {
+		return hand;
+		
 	}
 
 }
