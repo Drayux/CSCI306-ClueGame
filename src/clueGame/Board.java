@@ -156,12 +156,12 @@ public class Board {
 				try {
 					boardLegend.put(split[0].charAt(0), split[1]);
 					
-					//Supplementary testing output
-					//System.out.println("Added " + split[0].charAt(0) + " : " + split[1]);
+					// Supplementary testing output
+					// System.out.println("Added " + split[0].charAt(0) + " : " + split[1]);
 					
 					if (!(split[2].equals("Card") || split[2].equals("Other"))) throw new BadConfigFormatException("Invalid room type specification: " + split[2]);
 					else if (split[2].equals("Card")) {
-						//Checks for appropriate number of rooms, adds to deck
+						// Checks for appropriate number of rooms, adds to deck
 						if (numRooms == MAX_ROOMS_COUNT) throw new BadConfigFormatException("Invalid number of rooms: " + (numRooms + 1));
 						
 						if (numRooms == Math.floor(rand)) gameSolution.setRoom(new Card(CardType.ROOM, split[1]));
@@ -186,11 +186,11 @@ public class Board {
 		} finally {
 			if (reader != null) {
 				try {
-					//Attempt to close the reader
+					// Attempt to close the reader
 					reader.close();
 					
 				} catch (IOException e) {
-					//This error is handled here so as to not suppress other (more important) errors
+					// This error is handled here so as to not suppress other (more important) errors
 					System.out.println(e.getMessage());
 					
 				}
@@ -198,7 +198,7 @@ public class Board {
 		}
 	}
 	
-	//Load the player config (should be private)
+	// Load the player config (should be private)
 	public void loadPlayerConfig() throws IOException, BadConfigFormatException {
 		BufferedReader reader = null;
 		String line = null;
@@ -206,17 +206,17 @@ public class Board {
 		
 		double rand = Math.random() * MAX_PLAYERS_COUNT;
 		
-		//Large try block to ensure file will be closed on any exception
+		// Large try block to ensure file will be closed on any exception
 		try {
-			//Attempt to open the reader
+			// Attempt to open the reader
 			reader = new BufferedReader(new FileReader(playerConfigFile));
 			line = reader.readLine();
 			
 			while(line != null) {
-				//Use ", " as the delimiter in line.split
+				// Use ", " as the delimiter in line.split
 				String[] split = line.split(", ");
 
-				//Error handling
+				// Error handling
 				try {
 					if (numPlayers == MAX_PLAYERS_COUNT) throw new BadConfigFormatException("Invalid number of players: " + (numPlayers + 1));
 					
@@ -258,7 +258,7 @@ public class Board {
 		}
 	}
 	
-	//Load the weapon config (should be private)
+	// Load the weapon config (should be private)
 	public void loadWeaponConfig() throws IOException, BadConfigFormatException {
 		BufferedReader reader = null;
 		String line = null;
@@ -266,9 +266,9 @@ public class Board {
 		
 		double rand = Math.random() * MAX_WEAPONS_COUNT;
 		
-		//Large try block to ensure file will be closed on any exception
+		// Large try block to ensure file will be closed on any exception
 		try {
-			//Attempt to open the reader
+			// Attempt to open the reader
 			reader = new BufferedReader(new FileReader(weaponConfigFile));
 			line = reader.readLine();
 			
@@ -300,7 +300,7 @@ public class Board {
 		}
 	}
 
-	//This function should only ever be called once
+	// This function should only ever be called once
 	private void calcAdjacencies() {
 		//For every cell on the board, calculate a set of all adjacent cells
 		//Store as map in adjacencies
