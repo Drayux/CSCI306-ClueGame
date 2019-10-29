@@ -217,8 +217,8 @@ public class Board {
 				try {
 					if (numPlayers == MAX_PLAYERS_COUNT) throw new BadConfigFormatException("Invalid number of players: " + (numPlayers + 1));
 					
-					if (split[6].equals("Computer")) player = new ComputerPlayer(split[0], split[4], split[5], new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
-					else if (split[6].equals("Player")) player = new HumanPlayer(split[0], split[4], split[5], new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
+					if (split[6].equals("Computer")) player = new ComputerPlayer(split[0], Integer.parseInt(split[4]), Integer.parseInt(split[5]), new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
+					else if (split[6].equals("Player")) player = new HumanPlayer(split[0], Integer.parseInt(split[4]), Integer.parseInt(split[5]), new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
 					
 					players[numPlayers] = player;
 					deck[numRooms + numPlayers + numWeapons] = new Card(CardType.PERSON, split[0]);
