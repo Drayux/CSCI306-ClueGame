@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
-
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,7 +14,16 @@ public class Board {
 	private int numRows = 0;     // Initialize to zero for an uninitialized board
 	private int numColumns = 0;  // Initialize to zero for an uninitialized board
 
+	private int numRooms = 0;
+	private int numPlayers = 0;
+	private int numWeapons = 0;
+	
+	private int turnCount = 0; // Will be used later (this is why getPlayers has a modulus)
+	
 	public static final int MAX_BOARD_SIZE = 50;
+	public static final int MAX_ROOMS_COUNT = 9;
+	public static final int MAX_PLAYERS_COUNT = 6;
+	public static final int MAX_WEAPONS_COUNT = 6;
 
 	private BoardCell[] board;
 	private Map<Integer, String> boardLayout;
@@ -22,6 +31,10 @@ public class Board {
 	private Map<BoardCell, Set<BoardCell>> adjacencies;
 	private Set<BoardCell> targets;
 
+	private Player[] players = new Player[MAX_PLAYERS_COUNT];
+	private Card[] deck = new Card[MAX_ROOMS_COUNT + MAX_PLAYERS_COUNT + MAX_WEAPONS_COUNT];
+	private Solution gameSolution;
+	
 	private String layoutConfigFile;
 	private String legendConfigFile;
 	private String playerConfigFile;
@@ -47,6 +60,8 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
+			loadPlayerConfig();
+			loadWeaponConfig();
 			
 		} catch (BadConfigFormatException e) {
 			System.out.println(e.getMessage());
@@ -66,9 +81,11 @@ public class Board {
 
 		calcAdjacencies();
 
+		//Generate a solution
+		
 	}
 
-	//Load the board layout
+	//Load the board layout (should be private)
 	public void loadBoardConfig() throws IOException, BadConfigFormatException {
 		BufferedReader reader = null;
 		String line = null;
@@ -119,7 +136,7 @@ public class Board {
 		}
 	}
 
-	//Load the board legend
+	//Load the board legend (should be private)
 	public void loadRoomConfig() throws IOException, BadConfigFormatException {
 		BufferedReader reader = null;
 		String line = null;
@@ -137,9 +154,20 @@ public class Board {
 				//Error handling
 				try {
 					boardLegend.put(split[0].charAt(0), split[1]);
+					
 					//Supplementary testing output
 					//System.out.println("Added " + split[0].charAt(0) + " : " + split[1]);
+					
 					if (!(split[2].equals("Card") || split[2].equals("Other"))) throw new BadConfigFormatException("Invalid room type specification: " + split[2]);
+					else if (split[2].equals("Card")) {
+						//Checks for appropriate number of rooms, adds to deck
+						if (numRooms == MAX_ROOMS_COUNT) throw new BadConfigFormatException("Invalid number of rooms: " + (numRooms + 1));
+						deck[numRooms + numPlayers + numWeapons] = new Card(CardType.ROOM, split[1]);
+						
+						numRooms++;
+						
+					}
+					
 					if (split[1].equalsIgnoreCase("walkway")) BoardCell.setWalkwayInitial(split[0].charAt(0));
 
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -150,6 +178,9 @@ public class Board {
 				line = reader.readLine();
 
 			}
+			
+			if (numRooms != MAX_ROOMS_COUNT) throw new BadConfigFormatException("Invalid number of rooms: " + numRooms);
+			
 		} finally {
 			if (reader != null) {
 				try {
@@ -165,7 +196,65 @@ public class Board {
 		}
 	}
 	
+	//Load the player config (should be private)
+	public void loadPlayerConfig() throws IOException, BadConfigFormatException {
+		BufferedReader reader = null;
+		String line = null;
+		
+		Player player;
+		
+		//Large try block to ensure file will be closed on any exception
+		try {
+			//Attempt to open the reader
+			reader = new BufferedReader(new FileReader(legendConfigFile));
+			line = reader.readLine();
+			
+			while(line != null) {
+				//Use ", " as the delimiter in line.split
+				String[] split = line.split(", ");
+
+				//Error handling
+				try {
+					if (numPlayers == MAX_PLAYERS_COUNT) throw new BadConfigFormatException("Invalid number of players: " + (numPlayers + 1));
+					
+					if (split[6].equals("Computer")) player = new ComputerPlayer(split[0], split[4], split[5], new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
+					else if (split[6].equals("Player")) player = new HumanPlayer(split[0], split[4], split[5], new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
+					
+					players[numPlayers] = player;
+					deck[numRooms + numPlayers + numWeapons] = new Card(CardType.PERSON, split[0]);
+					numPlayers++;
+
+				} catch (ArrayIndexOutOfBoundsException e) {
+					
+					throw new BadConfigFormatException("Invalid number of player config parameters: " + split.length);
+				}
+
+				line = reader.readLine();
+
+			}
+			
+			if (numPlayers != MAX_PLAYERS_COUNT) throw new BadConfigFormatException("Invalid number of players: " + numPlayers);
+			
+		} finally {
+			if (reader != null) {
+				try {
+					//Attempt to close the reader
+					reader.close();
+					
+				} catch (IOException e) {
+					//This error is handled here so as to not suppress other (more important) errors
+					System.out.println(e.getMessage());
+					
+				}
+			}
+		}
+	}
 	
+	//Load the weapon config (should be private)
+	public void loadWeaponConfig() throws IOException, BadConfigFormatException {
+		
+		
+	}
 
 	//This function should only ever be called once
 	private void calcAdjacencies() {
@@ -290,5 +379,6 @@ public class Board {
 	public Set<BoardCell> getTargets() { return (targets == null) ? null : targets; }
 	public Set<BoardCell> getAdjList(BoardCell c) { return (adjacencies == null) ? null : adjacencies.get(c); }
 	public Set<BoardCell> getAdjList(int r, int c) { return (adjacencies == null) ? null : adjacencies.get(getCellAt(r, c)); }
+	public Player getPlayer(int i) { return players[i % MAX_PLAYERS_COUNT]; }
 
 }

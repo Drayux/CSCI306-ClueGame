@@ -4,17 +4,16 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player {
 
-public BoardCell pickLocation(Set<BoardCell> targets){
-
-	return;
-}	
-public void makeAccusation() {
+	public BoardCell pickLocation(Set<BoardCell> targets) {
 	
-}
-
-public void createSuggestions() {
+		return null;
+	}
 	
-}
+	public void makeAccusation() {
+		
+	}
 	
-	
+	public void createSuggestions() {
+		
+	}
 }
