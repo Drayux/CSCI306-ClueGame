@@ -32,8 +32,8 @@ public class Board {
 	private Set<BoardCell> targets;
 
 	private Player[] players = new Player[MAX_PLAYERS_COUNT];
-	private Card[] deck = new Card[MAX_ROOMS_COUNT + MAX_PLAYERS_COUNT + MAX_WEAPONS_COUNT];
 	private Solution gameSolution;
+	private Set<Card> deck = new HashSet<Card>();
 	
 	private String layoutConfigFile;
 	private String legendConfigFile;
@@ -162,8 +162,8 @@ public class Board {
 					else if (split[2].equals("Card")) {
 						//Checks for appropriate number of rooms, adds to deck
 						if (numRooms == MAX_ROOMS_COUNT) throw new BadConfigFormatException("Invalid number of rooms: " + (numRooms + 1));
-						deck[numRooms + numPlayers + numWeapons] = new Card(CardType.ROOM, split[1]);
 						
+						deck.add(new Card(CardType.ROOM, split[1]));
 						numRooms++;
 						
 					}
@@ -220,7 +220,7 @@ public class Board {
 					else if (split[6].equals("Player")) player = new HumanPlayer(split[0], Integer.parseInt(split[4]), Integer.parseInt(split[5]), new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
 					
 					players[numPlayers] = player;
-					deck[numRooms + numPlayers + numWeapons] = new Card(CardType.PERSON, split[0]);
+					deck.add(new Card(CardType.PERSON, split[0]));
 					numPlayers++;
 
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -254,8 +254,41 @@ public class Board {
 	
 	//Load the weapon config (should be private)
 	public void loadWeaponConfig() throws IOException, BadConfigFormatException {
+		BufferedReader reader = null;
+		String line = null;
+		Card weapon = null;
 		
-		
+		//Large try block to ensure file will be closed on any exception
+		try {
+			//Attempt to open the reader
+			reader = new BufferedReader(new FileReader(weaponConfigFile));
+			line = reader.readLine();
+			
+			while(line != null) {
+				if (numWeapons == MAX_WEAPONS_COUNT) throw new BadConfigFormatException("Invalid number of weapons: " + (numWeapons + 1));
+				
+				deck.add(new Card(CardType.WEAPON, line));
+				numWeapons++;
+
+				line = reader.readLine();
+
+			}
+			
+			if (numWeapons != MAX_WEAPONS_COUNT) throw new BadConfigFormatException("Invalid number of weapons: " + numPlayers);
+			
+		} finally {
+			if (reader != null) {
+				try {
+					//Attempt to close the reader
+					reader.close();
+					
+				} catch (IOException e) {
+					//This error is handled here so as to not suppress other (more important) errors
+					System.out.println(e.getMessage());
+					
+				}
+			}
+		}
 	}
 
 	//This function should only ever be called once
@@ -382,5 +415,6 @@ public class Board {
 	public Set<BoardCell> getAdjList(BoardCell c) { return (adjacencies == null) ? null : adjacencies.get(c); }
 	public Set<BoardCell> getAdjList(int r, int c) { return (adjacencies == null) ? null : adjacencies.get(getCellAt(r, c)); }
 	public Player getPlayer(int i) { return players[i % MAX_PLAYERS_COUNT]; }
+	public Set<Card> getGameDeck() { return deck; }
 
 }

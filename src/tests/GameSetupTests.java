@@ -1,6 +1,8 @@
 package tests;
 
 import clueGame.Board;
+import clueGame.Card;
+import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.ConfigType;
 import clueGame.HumanPlayer;
@@ -8,10 +10,11 @@ import clueGame.Player;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import java.awt.Color;
+import java.util.Set;
 
-import org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -78,6 +81,43 @@ public class GameSetupTests {
 		assertEquals(fourthPlayer.getPlayerLocation(), board.getCellAt(19, 16));
 		assertEquals(fifthPlayer.getPlayerLocation(), board.getCellAt(19, 10));
 		assertEquals(sixthPlayer.getPlayerLocation(), board.getCellAt(19, 1));
+		
+	}
+	
+	// This test tests that the deck of cards has been successfully created with all the cards defined in our config file
+	@Test
+	public void testDeckOfCards() {
+		Set<Card> deck = board.getGameDeck();
+		
+		assertEquals(deck.size(), 21);
+		
+		for (Card c : deck) {
+			assertTrue(
+					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					c.equals(new Card(CardType.ROOM, "Asylum")) ||
+					
+					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
+					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
+					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
+					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
+					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
+					c.equals(new Card(CardType.PERSON, "Colonel Mustard")) ||
+					
+					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
+					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
+					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
+					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
+					c.equals(new Card(CardType.WEAPON, "Light Saber")) ||
+					c.equals(new Card(CardType.WEAPON, "Light Saber")));
+			
+		}
 		
 	}
 	
