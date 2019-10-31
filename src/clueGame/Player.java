@@ -46,5 +46,7 @@ public abstract class Player {
 		return hand;
 		
 	}
+	
+	abstract public BoardCell pickLocation(Set<BoardCell> targets);
 
 }
