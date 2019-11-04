@@ -6,5 +6,6 @@ E, Entry, Card
 S, Studio, Card
 D, Dining Room, Card
 H, Arena, Card
+O, Underwear Repair, Card
 X, Closet, Other
 W, Walkway, Other

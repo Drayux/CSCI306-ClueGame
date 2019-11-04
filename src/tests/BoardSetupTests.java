@@ -12,11 +12,11 @@ import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
 
-public class myTests {
+public class BoardSetupTests {
 	
 	// Constants that I will use to test whether the file was loaded correctly
 	public static final int LEGEND_SIZE = 11;
-	public static final int NUM_ROWS = 21;
+	public static final int NUM_ROWS = 20;
 	public static final int NUM_COLUMNS = 23;
 
 	
@@ -25,7 +25,7 @@ public class myTests {
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
-		board.setConfigFiles("layoutCSV.csv", "rooms.txt");		
+		board.setConfigFiles("config/board.csv", "config/legend.txt");	
 		// Initialize will load BOTH configuration files 
 		board.initialize();
 	}
@@ -42,7 +42,7 @@ public class myTests {
 		assertEquals("Asylum", legend.get('C'));
 		assertEquals("Butcher's Bedroom", legend.get('B'));
 		assertEquals("Studio", legend.get('S'));
-		assertEquals("Dining room", legend.get('D'));
+		assertEquals("Dining Room", legend.get('D'));
 		assertEquals("Kitchen", legend.get('K'));
 	}
 	
@@ -51,7 +51,7 @@ public class myTests {
 	public void testBoardDimensions() {
 		// proper number of rows and columns
 		assertEquals(NUM_ROWS, board.getNumRows());
-		assertEquals(NUM_COLUMNS, board.getNumColumns());		
+		assertEquals(NUM_COLUMNS, board.getNumColumns());
 	}
 	
 	
