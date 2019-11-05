@@ -14,6 +14,7 @@ public class ComputerPlayer extends Player {
 		
 	}
 
+	@Override
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		if (targets.size() == 0) return null;   // If targets is empty, no need to process everything
 		
@@ -21,8 +22,6 @@ public class ComputerPlayer extends Player {
 		Set<BoardCell> newRooms = new HashSet<BoardCell>();
 		Set<BoardCell> oldRooms = new HashSet<BoardCell>();
 		Set<BoardCell> cells = new HashSet<BoardCell>();
-		
-		double rand = Math.random();
 		
 		for (BoardCell location : targets) {
 			if (location.isWalkway()) cells.add(location);
@@ -32,19 +31,54 @@ public class ComputerPlayer extends Player {
 		}
 		
 		// No rooms are nearby
-		if (newRooms.size() + oldRooms.size() == 0) {
+		if (newRooms.size() + oldRooms.size() == 0) return (BoardCell) pickRandomFromSet(cells);
+		
+		// Unvisted room
+		else if (newRooms.size() > 0) {
+			BoardCell room = (BoardCell) pickRandomFromSet(newRooms);
+			visitedRooms.add(room.getInitial());
 			
+			return room;
+		}
+		
+		else {
+			// Create a combined set (this is the last option, so no need to allocate new memory
+			cells.addAll(oldRooms);
+			cells.addAll(newRooms);
+			
+			BoardCell room = (BoardCell) pickRandomFromSet(cells);
+			if (room.isDoorway()) visitedRooms.add(room.getInitial());
+			
+			return room;
+		}
+	}
+
+	@Override
+	public Solution makeAccusation() {
+		// TODO Auto-generated method stub
+		return null;
+		
+	}
+
+	@Override
+	public Solution createSuggestion() {
+		Solution suggestion = new Solution();
+		Set<Card> personCards = new HashSet<Card>();
+		Set<Card> weaponCards = new HashSet<Card>();
+		
+		// Prepare the decks
+		for (Card c : Board.getInstance().getGameCards()) {
+			if (hand.contains(c) || disprovenCards.contains(c)) continue;
+			
+			if (c.getType() == CardType.PERSON) personCards.add(c);
+			else if (c.getType() == CardType.WEAPON) weaponCards.add(c);
 			
 		}
 		
-		return null;
-	}
-	
-	public void makeAccusation() {
+		suggestion.setRoom(Board.getInstance().getAssociatedRoomCard(row, column));
+		suggestion.setPerson((Card) pickRandomFromSet(personCards));
+		suggestion.setWeapon((Card) pickRandomFromSet(weaponCards));
 		
-	}
-	
-	public void createSuggestions() {
-		
+		return suggestion;
 	}
 }

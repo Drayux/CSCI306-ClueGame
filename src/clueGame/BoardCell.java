@@ -61,7 +61,7 @@ public class BoardCell {
 			}
 		} 
 	}
-
+	
 	//Cell functions designed for use with adj/targets functions
 	//Returns cell to the left
 	public BoardCell getCellLeft(final Board board) {

@@ -87,9 +87,9 @@ public class GameSetupTests {
 	// This test tests that the deck of cards has been successfully created with all the cards defined in our config file
 	@Test
 	public void testDeckOfCards() {
-		Set<Card> deck = board.getGameDeck();
+		Set<Card> deck = board.getGameCards();
 		
-		assertEquals(deck.size(), 18);
+		assertEquals(deck.size(), 21);
 		
 		// Because the cards *only* exist in the deck, we need to be sure that the contents of every card it the deck
 		// matches that of those we know are in our text files, nothing more, nothing less.

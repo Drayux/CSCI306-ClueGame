@@ -34,7 +34,8 @@ public class Board {
 
 	private Player[] players = new Player[MAX_PLAYERS_COUNT];
 	private Solution gameSolution = new Solution();
-	private Set<Card> deck = new HashSet<Card>();
+	private Set<Card> deck = new HashSet<Card>();        // Set of cards used for dealing the cards
+	private Set<Card> gameCards = new HashSet<Card>();   // Unmodified set of cards for making suggestions/accusations
 	
 	private String layoutConfigFile;
 	private String legendConfigFile;
@@ -139,6 +140,7 @@ public class Board {
 	public void loadRoomConfig() throws IOException, BadConfigFormatException {
 		BufferedReader reader = null;
 		String line = null;
+		Card room = null;
 		
 		double rand = Math.random() * MAX_ROOMS_COUNT;
 		
@@ -164,8 +166,12 @@ public class Board {
 						// Checks for appropriate number of rooms, adds to deck
 						if (numRooms == MAX_ROOMS_COUNT) throw new BadConfigFormatException("Invalid number of rooms: " + (numRooms + 1));
 						
-						if (numRooms == Math.floor(rand)) gameSolution.setRoom(new Card(CardType.ROOM, split[1]));
-						else deck.add(new Card(CardType.ROOM, split[1]));
+						room = new Card(CardType.ROOM, split[1]);
+						
+						if (numRooms == Math.floor(rand)) gameSolution.setRoom(room);
+						else deck.add(room);
+						
+						gameCards.add(room);
 						numRooms++;
 						
 					}
@@ -203,6 +209,7 @@ public class Board {
 		BufferedReader reader = null;
 		String line = null;
 		Player player = null;
+		Card person = null;
 		
 		double rand = Math.random() * MAX_PLAYERS_COUNT;
 		
@@ -220,13 +227,19 @@ public class Board {
 				try {
 					if (numPlayers == MAX_PLAYERS_COUNT) throw new BadConfigFormatException("Invalid number of players: " + (numPlayers + 1));
 					
+					// Game player handling
 					if (split[6].equals("Computer")) player = new ComputerPlayer(split[0], Integer.parseInt(split[4]), Integer.parseInt(split[5]), new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
 					else if (split[6].equals("Player")) player = new HumanPlayer(split[0], Integer.parseInt(split[4]), Integer.parseInt(split[5]), new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
 					
 					players[numPlayers] = player;
 					
-					if (numPlayers == Math.floor(rand)) gameSolution.setPerson(new Card(CardType.PERSON, split[0]));
-					else deck.add(new Card(CardType.PERSON, split[0]));
+					// Player card handling
+					person = new Card(CardType.PERSON, split[0]);
+					
+					if (numPlayers == Math.floor(rand)) gameSolution.setPerson(person);
+					else deck.add(person);
+					
+					gameCards.add(person);
 					numPlayers++;
 
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -275,15 +288,19 @@ public class Board {
 			while(line != null) {
 				if (numWeapons == MAX_WEAPONS_COUNT) throw new BadConfigFormatException("Invalid number of weapons: " + (numWeapons + 1));
 				
-				if (numWeapons == Math.floor(rand)) gameSolution.setWeapon(new Card(CardType.WEAPON, line));
-				else deck.add(new Card(CardType.WEAPON, line));
+				weapon = new Card(CardType.WEAPON, line);
+				
+				if (numWeapons == Math.floor(rand)) gameSolution.setWeapon(weapon);
+				else deck.add(weapon);
+				
+				gameCards.add(weapon);
 				numWeapons++;
 
 				line = reader.readLine();
 
 			}
 			
-			if (numWeapons != MAX_WEAPONS_COUNT) throw new BadConfigFormatException("Invalid number of weapons: " + numPlayers);
+			if (numWeapons != MAX_WEAPONS_COUNT) throw new BadConfigFormatException("Invalid number of weapons: " + numWeapons);
 			
 		} finally {
 			if (reader != null) {
@@ -430,6 +447,45 @@ public class Board {
 		}
 	}
 	
+	public Card getAssociatedRoomCard(int r, int c) {
+		String name = boardLegend.get(getCellAt(r, c).getInitial());
+		
+		for (Card card : gameCards) if (card.getName().equals(name)) return card;
+		
+		return null;
+	}
+	
+	public Card getAssociatedRoomCard(BoardCell cell) {
+		String name = boardLegend.get(cell.getInitial());
+		
+		for (Card card : gameCards) if (card.getName().equals(name)) return card;
+		
+		return null;
+	}
+	
+	public boolean checkAccusation(Solution accusation) {
+		if (accusation.equals(gameSolution)) return true;
+		
+		return false;
+	}
+	
+	public Card handleSuggestion(Solution suggestion) {
+		Card evidence = null;
+		
+		// Suggestion will be made on player's turn
+		for (int i = 1; i < MAX_PLAYERS_COUNT; i++) {
+			evidence = getPlayer(turnCount + i).disproveSuggestion(suggestion);
+			if (evidence != null) return evidence;
+			
+		}
+		return null;
+	}
+	
+	public void nextTurn() {
+		turnCount++;
+		
+	}
+	
 	//Simple getters
 	public int getNumRows() { return numRows; }
 	public int getNumColumns() { return numColumns; }
@@ -448,6 +504,6 @@ public class Board {
 	public Set<BoardCell> getAdjList(BoardCell c) { return (adjacencies == null) ? null : adjacencies.get(c); }
 	public Set<BoardCell> getAdjList(int r, int c) { return (adjacencies == null) ? null : adjacencies.get(getCellAt(r, c)); }
 	public Player getPlayer(int i) { return players[i % MAX_PLAYERS_COUNT]; }
-	public Set<Card> getGameDeck() { return deck; }
+	public Set<Card> getGameCards() { return gameCards; }
 
 }
