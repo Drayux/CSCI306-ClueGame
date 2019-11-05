@@ -17,14 +17,16 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public void makeAccusation() {
+	public Solution makeAccusation() {
 		// TODO Auto-generated method stub
+		return null;
 		
 	}
 
 	@Override
-	public void createSuggestion() {
+	public Solution createSuggestion() {
 		// TODO Auto-generated method stub
+		return null;
 		
 	}
 
