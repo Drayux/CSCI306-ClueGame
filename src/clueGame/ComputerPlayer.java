@@ -34,14 +34,22 @@ public class ComputerPlayer extends Player {
 		if (newRooms.size() + oldRooms.size() == 0) return (BoardCell) pickRandomFromSet(cells);
 		
 		// Unvisted room
-		else if (newRooms.size() > 0) return (BoardCell) pickRandomFromSet(newRooms);
+		else if (newRooms.size() > 0) {
+			BoardCell room = (BoardCell) pickRandomFromSet(newRooms);
+			visitedRooms.add(room.getInitial());
+			
+			return room;
+		}
 		
 		else {
 			// Create a combined set (this is the last option, so no need to allocate new memory
 			cells.addAll(oldRooms);
 			cells.addAll(newRooms);
 			
-			return (BoardCell) pickRandomFromSet(cells);
+			BoardCell room = (BoardCell) pickRandomFromSet(cells);
+			if (room.isDoorway()) visitedRooms.add(room.getInitial());
+			
+			return room;
 		}
 	}
 
