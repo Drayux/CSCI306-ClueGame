@@ -262,7 +262,6 @@ public class Board {
 	public void loadWeaponConfig() throws IOException, BadConfigFormatException {
 		BufferedReader reader = null;
 		String line = null;
-		Card weapon = null;
 		
 		double rand = Math.random() * MAX_WEAPONS_COUNT;
 		
@@ -283,7 +282,7 @@ public class Board {
 
 			}
 			
-			if (numWeapons != MAX_WEAPONS_COUNT) throw new BadConfigFormatException("Invalid number of weapons: " + numPlayers);
+			if (numWeapons != MAX_WEAPONS_COUNT) throw new BadConfigFormatException("Invalid number of weapons: " + numWeapons);
 			
 		} finally {
 			if (reader != null) {
@@ -428,6 +427,12 @@ public class Board {
 			i++;
 			
 		}
+	}
+	
+	public boolean checkAccusation(Solution accusation) {
+		if (accusation.equals(gameSolution)) return true;
+		
+		return false;
 	}
 	
 	//Simple getters

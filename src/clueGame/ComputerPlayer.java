@@ -14,6 +14,7 @@ public class ComputerPlayer extends Player {
 		
 	}
 
+	@Override
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		if (targets.size() == 0) return null;   // If targets is empty, no need to process everything
 		
@@ -33,18 +34,65 @@ public class ComputerPlayer extends Player {
 		
 		// No rooms are nearby
 		if (newRooms.size() + oldRooms.size() == 0) {
-			
-			
+			int i = 0;
+			int randInt = (int) Math.floor(rand * cells.size());
+
+			// TODO Look into sets and determine if there is a better way to remove an item at random
+			// I speculate that relying on the hashing properties of the set will likely result
+			//     in similar results across the course of multiple games, per computer (and game config)
+			for (BoardCell c : cells) {
+				if (i == randInt) return c;
+				else i++;
+				
+			}
 		}
 		
+		// Unvisted room
+		else if (newRooms.size() > 0) {
+			int i = 0;
+			int randInt = (int) Math.floor(rand * newRooms.size());
+
+			// TODO Look into sets and determine if there is a better way to remove an item at random
+			// I speculate that relying on the hashing properties of the set will likely result
+			//     in similar results across the course of multiple games, per computer (and game config)
+			for (BoardCell c : newRooms) {
+				if (i == randInt) return c;
+				else i++;
+				
+			}
+		}
+		
+		else {
+			// Create a combined set (this is the last option, so no need to allocate new memory
+			cells.addAll(oldRooms);
+			cells.addAll(newRooms);
+			
+			int i = 0;
+			int randInt = (int) Math.floor(rand * cells.size());
+
+			// TODO Look into sets and determine if there is a better way to remove an item at random
+			// I speculate that relying on the hashing properties of the set will likely result
+			//     in similar results across the course of multiple games, per computer (and game config)
+			for (BoardCell c : cells) {
+				if (i == randInt) return c;
+				else i++;
+				
+			}
+		}
+		
+		// If all else fails, return a null pointer
 		return null;
 	}
-	
+
+	@Override
 	public void makeAccusation() {
+		// TODO Auto-generated method stub
 		
 	}
-	
-	public void createSuggestions() {
+
+	@Override
+	public void createSuggestion() {
+		
 		
 	}
 }

@@ -13,6 +13,9 @@ public abstract class Player {
 	
 	private Set<Card> hand = new HashSet<Card>();
 	
+	// All players will "know" the same cards to be disproven
+	// As this impacts their decision making, this is located here and not in Board.java
+	private static Set<Card> disprovenCards = new HashSet<Card>();
 	
 	public Player(String playerName, int row, int column, Color color) {
 		this.playerName = playerName;
@@ -21,7 +24,7 @@ public abstract class Player {
 		this.color = color;
 	}
 	
-	public Card disproveSuggestion( Solution suggestion) {
+	public Card disproveSuggestion(Solution suggestion) {
 		return null;
 	}
 	
@@ -48,5 +51,7 @@ public abstract class Player {
 	}
 	
 	abstract public BoardCell pickLocation(Set<BoardCell> targets);
+	abstract public void makeAccusation();
+	abstract public void createSuggestion();
 
 }
