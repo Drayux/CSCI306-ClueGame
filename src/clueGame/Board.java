@@ -469,6 +469,23 @@ public class Board {
 		return false;
 	}
 	
+	public Card handleSuggestion(Solution suggestion) {
+		Card evidence = null;
+		
+		// Suggestion will be made on player's turn
+		for (int i = 1; i < MAX_PLAYERS_COUNT; i++) {
+			evidence = getPlayer(turnCount + i).disproveSuggestion(suggestion);
+			if (evidence != null) return evidence;
+			
+		}
+		return null;
+	}
+	
+	public void nextTurn() {
+		turnCount++;
+		
+	}
+	
 	//Simple getters
 	public int getNumRows() { return numRows; }
 	public int getNumColumns() { return numColumns; }

@@ -32,7 +32,10 @@ public abstract class Player {
 		if (hand.contains(suggestion.getRoom())) matches.add(suggestion.getRoom());
 		if (hand.contains(suggestion.getWeapon())) matches.add(suggestion.getWeapon());
 		
-		return (Card) pickRandomFromSet(matches);
+		Card evidence = (Card) pickRandomFromSet(matches); 
+		
+		if (evidence != null) disprovenCards.add(evidence);
+		return evidence;
 	}
 	
 	public String getPlayerName() {
