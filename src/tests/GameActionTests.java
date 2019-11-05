@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.ComputerPlayer;
 import clueGame.ConfigType;
+import clueGame.Solution;
 
 public class GameActionTests {	
 
@@ -143,19 +145,50 @@ public class GameActionTests {
 		}
 	}
 
-
-
-
+	// THESE TESTS TEST THAT THE EQUALS FUNCTION WORKS FOR SOLUTIONS SUCH THAT THE GAME MAY
+	// ACCURATELY CHECK AN ACCUSATION
 	@Test
 	public void checkingAccusationTest() {
+		// "Official" solution
+		Solution testSolution = new Solution();
+		testSolution.setPerson(null); //TODO
+		testSolution.setRoom(null); //TODO
+		testSolution.setWeapon(null); //TODO
 
+		// Test solutions
+		Solution testAccusationCorrect = new Solution();
+		testAccusationCorrect.setPerson(null); //TODO
+		testAccusationCorrect.setRoom(null); //TODO
+		testAccusationCorrect.setWeapon(null); //TODO
+		
+		Solution testAccusationWrongPerson = new Solution();
+		testAccusationWrongPerson.setPerson(null); //TODO
+		testAccusationWrongPerson.setRoom(null); //TODO
+		testAccusationWrongPerson.setWeapon(null); //TODO
+		
+		Solution testAccusationWrongWeapon = new Solution();
+		testAccusationWrongWeapon.setPerson(null); //TODO
+		testAccusationWrongWeapon.setRoom(null); //TODO
+		testAccusationWrongWeapon.setWeapon(null); //TODO
+		
+		Solution testAccusationWrongRoom = new Solution();
+		testAccusationWrongRoom.setPerson(null); //TODO
+		testAccusationWrongRoom.setRoom(null); //TODO
+		testAccusationWrongRoom.setWeapon(null); //TODO
 
-
-
-
+		// Comparison step
+		assertTrue(testSolution.equals(testAccusationCorrect));
+		
+		assertFalse(testSolution.equals(testAccusationWrongPerson));
+		assertFalse(testSolution.equals(testAccusationWrongWeapon));
+		assertFalse(testSolution.equals(testAccusationWrongRoom));
+		
 	}
 
+	@Test 
+	public void creatingSuggestionTest() {
 
+	}
 
 	@Test 
 	public void disprovingSuggestionTest () {
@@ -166,13 +199,6 @@ public class GameActionTests {
 	public void handlingSuggestionTest() {
 
 	}
-
-	@Test 
-	public void creatingSuggestionTest() {
-
-	}
-
-
 }
 
 
