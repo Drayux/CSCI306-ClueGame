@@ -405,7 +405,15 @@ public class GameActionTests {
 
 	@Test
 	public void handlingSuggestionTest() {
-		fail();
+		Solution testSuggestion = new Solution();
+		testSuggestion.setPerson(person1);
+		testSuggestion.setRoom(room1);
+		testSuggestion.setWeapon(weapon1);
+		
+		// (Players have already been created by the game)
+		
+		assertTrue(board.handleSuggestion(testSuggestion) == null);
+		
 	}
 }
 
