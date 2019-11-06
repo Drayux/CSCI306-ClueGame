@@ -437,6 +437,7 @@ public class GameActionTests {
 		board.nextTurn();
 		
 		assertTrue(board.handleSuggestion(testSuggestion) == person2);  // Human player should answer
+		assertTrue(board.getPlayer(2).answered == true);
 		
 		board.nextTurn();
 		board.nextTurn();
