@@ -443,7 +443,7 @@ public class GameActionTests {
 		board.nextTurn();
 		board.nextTurn();
 		board.nextTurn();
-		board.getPlayer(5).answered = false;   
+		board.getPlayer(5).answered = false;   // Reset answered mark on human player
 		
 		assertTrue(board.handleSuggestion(testSuggestion) == person2);  // Computer player should answer
 		
