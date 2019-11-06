@@ -479,7 +479,11 @@ public class Board {
 		// Suggestion will be made on player's turn
 		for (int i = 1; i < MAX_PLAYERS_COUNT; i++) {
 			evidence = getPlayer(turnCount + i).disproveSuggestion(suggestion);
-			if (evidence != null) return evidence;
+			if (evidence != null) {
+				getPlayer(turnCount + i).answered = true;
+				
+				return evidence;
+			}
 			
 		}
 		return null;
