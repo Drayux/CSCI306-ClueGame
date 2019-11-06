@@ -368,7 +368,7 @@ public class GameActionTests {
 		// testPlayer2 has already disproven some cards, but these cards are already in their hand. 
 		// For this portion of the simulation, no cards will begin disproven
 		testSuggestion1 = testPlayer2.createSuggestion();
-		System.out.println(testSuggestion1.getPerson().getName() + " " + testSuggestion1.getWeapon().getName() + "\n");
+		//System.out.println(testSuggestion1.getPerson().getName() + " " + testSuggestion1.getWeapon().getName() + "\n");
 		
 		assertTrue(testSuggestion1.getPerson() == personCards[0] || testSuggestion1.getPerson() == personCards[1] || testSuggestion1.getPerson() == personCards[2]);
 		assertTrue(testSuggestion1.getWeapon() == weaponCards[0] || testSuggestion1.getWeapon() == weaponCards[1] || testSuggestion1.getWeapon() == weaponCards[2]);
@@ -378,7 +378,7 @@ public class GameActionTests {
 		testPlayer1.disproveSuggestion(testSuggestion1);
 		
 		testSuggestion2 = testPlayer2.createSuggestion();
-		System.out.println(testSuggestion2.getPerson().getName() + " " + testSuggestion2.getWeapon().getName() + "\n");
+		//System.out.println(testSuggestion2.getPerson().getName() + " " + testSuggestion2.getWeapon().getName() + "\n");
 		
 		assertTrue(testSuggestion2.getPerson() == personCards[0] || testSuggestion2.getPerson() == personCards[1] || testSuggestion2.getPerson() == personCards[2]);
 		assertTrue(testSuggestion2.getWeapon() == weaponCards[0] || testSuggestion2.getWeapon() == weaponCards[1] || testSuggestion2.getWeapon() == weaponCards[2]);
@@ -391,7 +391,7 @@ public class GameActionTests {
 		
 		// Now testPlayer2 is guaranteed to create a suggestion different from the first two
 		testSuggestion3 = testPlayer2.createSuggestion();
-		System.out.println(testSuggestion3.getPerson().getName() + " " + testSuggestion3.getWeapon().getName() + "\n");
+		//System.out.println(testSuggestion3.getPerson().getName() + " " + testSuggestion3.getWeapon().getName() + "\n");
 		
 		assertTrue(testSuggestion3.getPerson() == personCards[0] || testSuggestion3.getPerson() == personCards[1] || testSuggestion3.getPerson() == personCards[2]);
 		assertTrue(testSuggestion3.getWeapon() == weaponCards[0] || testSuggestion3.getWeapon() == weaponCards[1] || testSuggestion3.getWeapon() == weaponCards[2]);
@@ -412,7 +412,37 @@ public class GameActionTests {
 		
 		// (Players have already been created by the game)
 		
+		// Test no one can answer
 		assertTrue(board.handleSuggestion(testSuggestion) == null);
+		
+		// Test only accusing player can answer
+		board.getPlayer(0).takeCard(person1);  // Accusing player is player 0 (by current game design)
+		
+		assertTrue(board.handleSuggestion(testSuggestion) == null);
+		
+		board.nextTurn();
+		board.nextTurn();
+		
+		testSuggestion.setPerson(person2);
+		board.getPlayer(2).takeCard(person2);  // Accusing player is player 2
+		
+		assertTrue(board.handleSuggestion(testSuggestion) == null);
+		
+		// Test only human can answer
+		board.getPlayer(5).takeCard(person2);
+		
+		assertTrue(board.handleSuggestion(testSuggestion) == person2);
+		
+		// Test correct player answers
+		board.nextTurn();
+		
+		assertTrue(board.handleSuggestion(testSuggestion) == person2);  // Human player should answer
+		
+		board.nextTurn();
+		board.nextTurn();
+		board.nextTurn();
+		
+		assertTrue(board.handleSuggestion(testSuggestion) == person2);  // Computer player should answer
 		
 	}
 }
