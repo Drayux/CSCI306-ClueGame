@@ -6,6 +6,9 @@ import java.util.Set;
 
 public abstract class Player {
 	
+	// FOR SUGGESTION TESTS
+	public boolean answered = false;
+	
 	private String playerName;
 	protected int row;
 	protected int column;
