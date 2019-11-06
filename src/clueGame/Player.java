@@ -31,8 +31,12 @@ public abstract class Player {
 		if (hand.contains(suggestion.getPerson())) matches.add(suggestion.getPerson());
 		if (hand.contains(suggestion.getRoom())) matches.add(suggestion.getRoom());
 		if (hand.contains(suggestion.getWeapon())) matches.add(suggestion.getWeapon());
-		
+
+		// Note to self: This AI is intended to choose a match at random
+		// The best strategy would be to disprove the suggestion with a card that has already been known
+		// This situation however, should not occur with the create suggestion AI
 		Card evidence = (Card) pickRandomFromSet(matches); 
+		//System.out.println("Disproved: " + evidence.getName() + "\n");
 		
 		if (evidence != null) disprovenCards.add(evidence);
 		return evidence;

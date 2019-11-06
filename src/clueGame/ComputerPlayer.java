@@ -66,7 +66,7 @@ public class ComputerPlayer extends Player {
 		Set<Card> personCards = new HashSet<Card>();
 		Set<Card> weaponCards = new HashSet<Card>();
 		
-		// Prepare the decks
+		// Prepare the sets
 		for (Card c : Board.getInstance().getGameCards()) {
 			if (hand.contains(c) || disprovenCards.contains(c)) continue;
 			
@@ -74,6 +74,12 @@ public class ComputerPlayer extends Player {
 			else if (c.getType() == CardType.WEAPON) weaponCards.add(c);
 			
 		}
+		
+		//System.out.println("Person cards:");
+		//for (Card c : personCards) System.out.println(c.getName());
+		//System.out.println("\nWeapon cards:");
+		//for (Card c : weaponCards) System.out.println(c.getName());
+		//System.out.println();
 		
 		suggestion.setRoom(Board.getInstance().getAssociatedRoomCard(row, column));
 		suggestion.setPerson((Card) pickRandomFromSet(personCards));
