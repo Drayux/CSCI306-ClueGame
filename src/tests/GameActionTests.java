@@ -443,6 +443,7 @@ public class GameActionTests {
 		board.nextTurn();
 		board.nextTurn();
 		board.nextTurn();
+		board.getPlayer(5).answered = false;   
 		
 		assertTrue(board.handleSuggestion(testSuggestion) == person2);  // Computer player should answer
 		
