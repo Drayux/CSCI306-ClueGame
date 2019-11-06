@@ -206,6 +206,8 @@ public class Board {
 	
 	// Load the player config (should be private)
 	public void loadPlayerConfig() throws IOException, BadConfigFormatException {
+		if (playerConfigFile == null) return;   // Compatibility for tests made prior to this config file
+		
 		BufferedReader reader = null;
 		String line = null;
 		Player player = null;
@@ -273,6 +275,8 @@ public class Board {
 	
 	// Load the weapon config (should be private)
 	public void loadWeaponConfig() throws IOException, BadConfigFormatException {
+		if (weaponConfigFile == null) return;   // Compatibility for tests made prior to this config file
+		
 		BufferedReader reader = null;
 		String line = null;
 		Card weapon = null;

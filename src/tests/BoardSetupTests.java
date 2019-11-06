@@ -25,7 +25,7 @@ public class BoardSetupTests {
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
-		board.setConfigFiles("config/board.csv", "config/legend.txt");	
+		board.setConfigFiles("config/board.csv", "config/legend.txt");
 		// Initialize will load BOTH configuration files 
 		board.initialize();
 	}
