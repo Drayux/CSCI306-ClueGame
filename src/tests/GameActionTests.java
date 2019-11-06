@@ -403,6 +403,7 @@ public class GameActionTests {
 		
 	}
 
+	// THESE TESTS TEST THAT THE CLUE GAME (BOARD CLASS) APPROPRIATELY HANDLES WHEN A PLAYER MAKES A SUGGESTION
 	@Test
 	public void handlingSuggestionTest() {
 		Solution testSuggestion = new Solution();
@@ -446,6 +447,8 @@ public class GameActionTests {
 		board.getPlayer(5).answered = false;   // Reset answered mark on human player
 		
 		assertTrue(board.handleSuggestion(testSuggestion) == person2);  // Computer player should answer
+		assertTrue(board.getPlayer(2).answered == true);
+		assertTrue(board.getPlayer(5).answered == false);
 		
 	}
 }
