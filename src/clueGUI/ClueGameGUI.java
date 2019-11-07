@@ -88,9 +88,9 @@ public class ClueGameGUI extends JFrame {
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
 		
-		JFrame test = new JFrame();
-		test.setSize(200, 200);
-		//test.setVisible(true);
+		JFrame detectiveNotes = new DetectiveNotesGUI();
+		//detectiveNotes.setSize(200, 200);
+		detectiveNotes.setVisible(true);
 
 	}
 }
