@@ -97,8 +97,14 @@ public class BoardDisplay extends JPanel {
 					}
 					
 				} else if (curColTop != -1) {
-					maxColTop = curColTop;
-					maxColBottom = curColBottom;
+					if ((curColTop - curColBottom) > (maxColTop - maxColBottom)) {
+						maxColTop = curColTop;
+						maxColBottom = curColBottom;
+						
+					}
+					
+					curColTop = -1;
+					curColBottom = -1;
 					
 				}
 				
