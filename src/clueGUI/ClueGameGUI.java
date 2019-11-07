@@ -54,7 +54,9 @@ public class ClueGameGUI extends JFrame {
 	
 	private JMenu createFileMenu() {
 		JMenu menu = new JMenu("File"); 
+		menu.add(openDetectiveNotes());
 		menu.add(createFileExitItem());
+		
 		
 		return menu;
 	}
@@ -67,6 +69,23 @@ public class ClueGameGUI extends JFrame {
 				
 			}
 		}
+		
+		item.addActionListener(new MenuItemListener());
+		return item;
+	}
+	
+	private JMenuItem openDetectiveNotes() {
+		JMenuItem item = new JMenuItem("Detective Notes");
+		class MenuItemListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				JFrame detectiveNotes = new DetectiveNotesGUI();
+				detectiveNotes.setLocationRelativeTo(null);
+				detectiveNotes.setVisible(true);
+				
+			}
+		}
+		
+		
 		
 		item.addActionListener(new MenuItemListener());
 		return item;
@@ -88,9 +107,7 @@ public class ClueGameGUI extends JFrame {
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
 		
-		JFrame detectiveNotes = new DetectiveNotesGUI();
-		//detectiveNotes.setSize(200, 200);
-		detectiveNotes.setVisible(true);
+		
 
 	}
 }
