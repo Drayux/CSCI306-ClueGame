@@ -20,10 +20,11 @@ public class ClueGameGUI extends JFrame {
 	public ClueGameGUI() {
 
 		// 800 by 300 for a longer skinny look 
-		setSize(800,250); // could switch to 400 for more room
+		setSize(800, 800); // could switch to 400 for more room
 		setBackground(Color.GREEN); // added a background color for "Fun"
 		setTitle("Clue Game"); // set title to generic "clue game"
-		CPLayout();
+		ControlPanelLayout();
+		BoardDisplayLayout();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -32,28 +33,32 @@ public class ClueGameGUI extends JFrame {
 	}
 
 
-	//make the  control panel (CP) layout
-	private void CPLayout() {
+	// Make the control panel (CP) layout
+	private void ControlPanelLayout() {
 		JPanel control = new ControlPanel();
 		add(control, BorderLayout.SOUTH);
 
 	}
 	
+	// Make the board display layout
+	private void BoardDisplayLayout() {
+		JPanel display = new BoardDisplay();
+		add(display, BorderLayout.CENTER);
+		
+	}
 	
-	private JMenu createFileMenu()
-	{
+	private JMenu createFileMenu() {
 		JMenu menu = new JMenu("File"); 
 		menu.add(createFileExitItem());
 		return menu;
 	}
 
-	private JMenuItem createFileExitItem()
-	{
+	private JMenuItem createFileExitItem() {
 		JMenuItem item = new JMenuItem("Exit");
 		class MenuItemListener implements ActionListener {
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
+				
 			}
 		}
 		item.addActionListener(new MenuItemListener());

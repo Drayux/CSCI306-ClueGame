@@ -1,5 +1,6 @@
 package clueGUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -11,12 +12,20 @@ public class BoardDisplay extends JPanel {
 	
 	private static final int SIZE = 50;
 	
-	public BoardDisplay() {}
+	public BoardDisplay() {
+		setSize(getPreferredSize());
+		
+	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
+		g.setColor(Color.GREEN);
+		g.fillRect(20, 20, SIZE, SIZE);
+		g.setColor(Color.BLACK);
 		g.drawRect(20, 20, SIZE, SIZE);
+		//g.drawRect(20, 20, SIZE, SIZE);
 		
 	}
 
