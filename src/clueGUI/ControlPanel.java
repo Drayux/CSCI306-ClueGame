@@ -1,4 +1,4 @@
-package clueGame;
+package clueGUI;
 
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -17,8 +17,8 @@ public class ControlPanel extends JPanel {
 	
 
 	private JTextField response;
-	private JLabel WhoseTurnLabel;
-	private JTextField WhoseTurn;
+	private JLabel whoseTurnLabel;
+	private JTextField whoseTurn;
 	private JLabel diceRollLabel;
 	private JTextField diceRoll;
 	private JLabel guessLabel;
@@ -34,13 +34,19 @@ public class ControlPanel extends JPanel {
 		guessLabel = new JLabel("Guess");
 		diceRollLabel = new JLabel("Roll");
 		responseLabel = new JLabel("Response");
-		WhoseTurnLabel = new JLabel("Whose turn?");
+		whoseTurnLabel = new JLabel("Whose turn?");
 		
 		// Declare J-Text fields
-		WhoseTurn = new JTextField(16);
+		whoseTurn = new JTextField(16);
 		diceRoll = new JTextField(1);
 		guess = new JTextField(31);
 		response = new JTextField(16);
+		
+		// Configure J-Text fields
+		whoseTurn.setEditable(false);
+		diceRoll.setEditable(false);
+		guess.setEditable(false);
+		response.setEditable(false);
 		
 		// Declare J-Button
 		nextPlayer = new JButton("Next Player");
@@ -108,8 +114,8 @@ public class ControlPanel extends JPanel {
 		
 		JPanel whoTurn = new JPanel();
 		whoTurn.setLayout(new GridLayout(5,1)); // setting the size for the "whose turn" box
-		whoTurn.add(WhoseTurnLabel);
-		whoTurn.add(WhoseTurn);
+		whoTurn.add(whoseTurnLabel);
+		whoTurn.add(whoseTurn);
 		
 		fillButton.add(whoTurn);
 		fillButton.add(nextPlayer);
