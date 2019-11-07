@@ -52,7 +52,6 @@ public class GameActionTests {
 	public static void setUp() {
 		board = Board.getInstance();
 
-
 		board.setConfig(ConfigType.BOARD, "config/board.csv");
 		board.setConfig(ConfigType.LEGEND, "config/legend.txt");
 		board.setConfig(ConfigType.PLAYER, "config/players.txt");
