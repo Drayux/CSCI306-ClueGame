@@ -3,6 +3,8 @@ package clueGUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -77,8 +79,33 @@ public class BoardDisplay extends JPanel {
 		return new Dimension(Board.getInstance().getNumRows() * SIZE, Board.getInstance().getNumColumns() * SIZE);
 	}
 
-	private Dimension calculateRoomCenter(Board[] board, int rows, int columns, char roomInitial) {
-		// Checking every cell in the room, get the coordinates of the edges
+	private static Dimension calculateRoomCenter(Board board, int rows, int columns, char roomInitial) {
+		int maxColTop = -1;
+		int maxColBottom = -1;
+		
+		int curColTop = -1;
+		int curColBottom = -1;
+		
+		// In every column, find the longest section of room
+		for (int j = 0; j < board.getNumColumns(); j++) {
+			for (int i = 0; i < board.getNumRows(); i++) {
+				if (board.getCellAt(i, j).getInitial() == roomInitial) {
+					if (curColTop == -1) {
+						curColTop = i;
+						curColBottom = i;
+						
+					}
+					
+				} else if (curColTop != -1) {
+					maxColTop = curColTop;
+					maxColBottom = curColBottom;
+					
+				}
+				
+			}
+		}
+		
+		
 		
 		return null;
 	}
