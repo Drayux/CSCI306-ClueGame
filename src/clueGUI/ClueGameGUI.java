@@ -19,6 +19,7 @@ import clueGame.ConfigType;
 //Put main in a separate class due to confusion of how to have both JFRAME / JPANEL in one class
 public class ClueGameGUI extends JFrame {
 
+JDialog detectiveNotes = null;
 
 	//Constructor for main window
 	public ClueGameGUI() {
@@ -35,6 +36,9 @@ public class ClueGameGUI extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
+		
+		detectiveNotes = new DetectiveNotesGUI();
+		detectiveNotes.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
 	}
 
@@ -56,6 +60,7 @@ public class ClueGameGUI extends JFrame {
 	private JMenu createFileMenu() {
 		JMenu menu = new JMenu("File"); 
 		menu.add(openDetectiveNotes());
+		menu.addSeparator();
 		menu.add(createFileExitItem());
 		
 		
@@ -64,7 +69,9 @@ public class ClueGameGUI extends JFrame {
 
 	private JMenuItem createFileExitItem() {
 		JMenuItem item = new JMenuItem("Exit");
+		
 		class MenuItemListener implements ActionListener {
+			
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 				
@@ -77,9 +84,11 @@ public class ClueGameGUI extends JFrame {
 	
 	private JMenuItem openDetectiveNotes() {
 		JMenuItem item = new JMenuItem("Detective Notes");
+		
 		class MenuItemListener implements ActionListener {
+			
 			public void actionPerformed(ActionEvent e) {
-				JDialog detectiveNotes = new DetectiveNotesGUI();
+				
 				detectiveNotes.setLocationRelativeTo(null);
 				detectiveNotes.setVisible(true);
 				
@@ -95,6 +104,7 @@ public class ClueGameGUI extends JFrame {
 
 	public static void main(String[] args) {
 
+		// Prepare the board
 		Board board = Board.getInstance();
 
 		board.setConfig(ConfigType.BOARD, "config/board.csv");
@@ -104,11 +114,10 @@ public class ClueGameGUI extends JFrame {
 
 		board.initialize();
 		
+		// Create the GUI
 		JFrame gui = new ClueGameGUI();
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
-		
-		
 
 	}
 }

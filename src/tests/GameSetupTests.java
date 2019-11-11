@@ -49,21 +49,21 @@ public class GameSetupTests {
 		Player sixthPlayer = board.getPlayer(5);
 		
 		// Name tests ensuring the names of our players meet the text file
-		assertEquals(firstPlayer.getPlayerName(), "Colonel Mustard");
-		assertEquals(secondPlayer.getPlayerName(), "Miss Scarlet");
-		assertEquals(thirdPlayer.getPlayerName(), "Mr. Green");
-		assertEquals(fourthPlayer.getPlayerName(), "Mrs. Peacock");
-		assertEquals(fifthPlayer.getPlayerName(), "Mrs. White");
-		assertEquals(sixthPlayer.getPlayerName(), "Professor Plum");
+		assertEquals(firstPlayer.getName(), "Colonel Mustard");
+		assertEquals(secondPlayer.getName(), "Miss Scarlet");
+		assertEquals(thirdPlayer.getName(), "Mr. Green");
+		assertEquals(fourthPlayer.getName(), "Mrs. Peacock");
+		assertEquals(fifthPlayer.getName(), "Mrs. White");
+		assertEquals(sixthPlayer.getName(), "Professor Plum");
 		
 		
 		// Color tests ensuring the color of our players meet the text file
-		assertEquals(firstPlayer.getPlayerColor(), new Color(244, 230, 40));
-		assertEquals(secondPlayer.getPlayerColor(), new Color(146, 65, 84));
-		assertEquals(thirdPlayer.getPlayerColor(), new Color (156, 244, 40));
-		assertEquals(fourthPlayer.getPlayerColor(), new Color (0, 255, 255));
-		assertEquals(fifthPlayer.getPlayerColor(), new Color (255, 255, 255));
-		assertEquals(sixthPlayer.getPlayerColor(), new Color (221, 160, 221));
+		assertEquals(firstPlayer.getColor(), new Color(244, 230, 40));
+		assertEquals(secondPlayer.getColor(), new Color(146, 65, 84));
+		assertEquals(thirdPlayer.getColor(), new Color (156, 244, 40));
+		assertEquals(fourthPlayer.getColor(), new Color (0, 255, 255));
+		assertEquals(fifthPlayer.getColor(), new Color (255, 255, 255));
+		assertEquals(sixthPlayer.getColor(), new Color (221, 160, 221));
 		
 		// Human vs computer tests 
 		assertThat(firstPlayer, instanceOf(ComputerPlayer.class));
@@ -75,12 +75,12 @@ public class GameSetupTests {
 		
 		
 		// Starting location tests
-		assertEquals(firstPlayer.getPlayerLocation(), board.getCellAt(0, 7));
-		assertEquals(secondPlayer.getPlayerLocation(), board.getCellAt(0, 15));
-		assertEquals(thirdPlayer.getPlayerLocation(), board.getCellAt(6, 22));
-		assertEquals(fourthPlayer.getPlayerLocation(), board.getCellAt(19, 16));
-		assertEquals(fifthPlayer.getPlayerLocation(), board.getCellAt(19, 10));
-		assertEquals(sixthPlayer.getPlayerLocation(), board.getCellAt(19, 1));
+		assertEquals(firstPlayer.getLocation(), board.getCellAt(0, 7));
+		assertEquals(secondPlayer.getLocation(), board.getCellAt(0, 15));
+		assertEquals(thirdPlayer.getLocation(), board.getCellAt(6, 22));
+		assertEquals(fourthPlayer.getLocation(), board.getCellAt(19, 16));
+		assertEquals(fifthPlayer.getLocation(), board.getCellAt(19, 10));
+		assertEquals(sixthPlayer.getLocation(), board.getCellAt(19, 1));
 		
 	}
 	

@@ -45,18 +45,6 @@ public abstract class Player {
 		return evidence;
 	}
 	
-	public String getPlayerName() {
-		return playerName;
-	}
-
-	public Color getPlayerColor() {
-		return color;
-	}
-	
-	public BoardCell getPlayerLocation() {
-		return Board.getInstance().getCellAt(row, column);
-	}
-	
 	public void takeCard(Card card) {
 		hand.add(card);
 		
@@ -81,6 +69,12 @@ public abstract class Player {
 		}
 		return null;
 	}
+	
+	public String getName() { return playerName; }
+	public Color getColor() { return color; }
+	public int getRow() { return row; }
+	public int getColumn() { return column; }
+	public BoardCell getLocation() { return Board.getInstance().getCellAt(row, column); }
 	
 	abstract public BoardCell pickLocation(Set<BoardCell> targets);
 	abstract public Solution makeAccusation();
