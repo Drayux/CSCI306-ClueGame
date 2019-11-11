@@ -7,30 +7,65 @@ import java.awt.GridLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class DetectiveNotesGUI extends JFrame {
+public class DetectiveNotesGUI extends JDialog {
 	
 	public DetectiveNotesGUI() {
 		setSize(new Dimension(600,600));
 		setTitle("Detective Notes");
+		setLayout(new GridLayout(3,2));
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+			
+		String[] People = {"Colonel Mustard" , "Miss Scarlet", "Mr. Green","Mrs. Peacock", "Mrs. White", "Professor Plum"};
 		
-		//create DisplayPanel 
-		PeoplePanel pp = new  PeoplePanel();
-		add(pp, BorderLayout.NORTH);
+		String[] Room = {"Asylum", "Kitchen", "Butchers Bedroom", "Hotbox", "Studio", "Dining room", "Arena", "Underwear repair", "Entry"};
 		
+		String[] Weapon = {"Light Saber", "Plasma Rifle", "Throwing Hatchet", "Rusty Knife", "SCAR 17-H", "Chain Saw"};
+
+		PeoplePanel p = new PeoplePanel();
+		add(p);
+
+		dropDownMenu dd = new dropDownMenu(People, "Person Guess");
+		add(dd);
+
 		RoomPanel rp = new RoomPanel();
-		add(rp, BorderLayout.CENTER);
-		
+		add(rp);
+
+		dropDownMenu dd2 = new dropDownMenu(Room, "Room Guess");
+		add(dd2);
+
 		WeaponPanel wp = new WeaponPanel();
-		add(wp, BorderLayout.SOUTH);
-		
+		add(wp);
+
+		dropDownMenu dd3 = new dropDownMenu(Weapon, "Weapon Guess");
+		add(dd3);
 
 				
+	}
+	
+	
+	private class dropDownMenu extends JPanel {
+		private JComboBox<String> combo = new JComboBox<String>();
+		
+		public dropDownMenu(String[] nameList, String label) {
+			combo.addItem("Guess an option from the list");
+			for (String s:nameList) {
+				combo.addItem(s);
+			}
+			setLayout(new GridLayout(1,1));
+			setBorder(new TitledBorder(new EtchedBorder(), label));
+			add(combo);
+		}
+	
+	
+	
+
 	}
 	
 	
@@ -100,8 +135,6 @@ public class DetectiveNotesGUI extends JFrame {
 	}
 	
 	
-	
-	
 	private class WeaponPanel extends JPanel {
 		
 		private JCheckBox lightSaberButton, plasmaRifleButton, throwingHatchetButton, throwingKnifeButton, scar17Button, chainSawButton;
@@ -132,16 +165,6 @@ public class DetectiveNotesGUI extends JFrame {
 		
 	}
 	
-	
-	private class PersonDropbox extends JPanel {
-		
-		private JComboBox <String> scarletButton, greenButton, peacockButton, whiteButton, mustardButton, plumButton;
-		
-		PersonDropbox() {
-			
-		}
-	}
-	
-	
 
+	
 }

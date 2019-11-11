@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -78,7 +79,7 @@ public class ClueGameGUI extends JFrame {
 		JMenuItem item = new JMenuItem("Detective Notes");
 		class MenuItemListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
-				JFrame detectiveNotes = new DetectiveNotesGUI();
+				JDialog detectiveNotes = new DetectiveNotesGUI();
 				detectiveNotes.setLocationRelativeTo(null);
 				detectiveNotes.setVisible(true);
 				

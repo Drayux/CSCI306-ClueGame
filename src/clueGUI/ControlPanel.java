@@ -73,6 +73,9 @@ public class ControlPanel extends JPanel {
 		this.add(topButtons, BorderLayout.NORTH);
 
 	}
+	
+	
+	
 
 	private JPanel fillInPanel(JPanel fillPanel) {
 
