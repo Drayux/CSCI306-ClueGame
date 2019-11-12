@@ -122,6 +122,9 @@ public class ControlPanel extends JPanel {
 		fillButton.add(makeAccusation);
 		return fillButton;
 	}
+	
+	
+
 
 
 

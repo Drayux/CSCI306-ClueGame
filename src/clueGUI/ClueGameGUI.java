@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import clueGame.Board;
@@ -103,6 +104,9 @@ JDialog detectiveNotes = null;
 
 
 	public static void main(String[] args) {
+		
+		
+		JOptionPane.showMessageDialog(null, "You are Miss Scarlet, press Next Player to begin play", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE );
 
 		// Prepare the board
 		Board board = Board.getInstance();
