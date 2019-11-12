@@ -3,6 +3,8 @@ package clueGUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,8 +20,8 @@ import clueGame.DoorDirection;
 
 public class BoardDisplay extends JPanel {
 
-	private static final int SIZE = 32;
-	private static final int DOOR_WIDTH = 8;
+	private int cellSize = 32;
+	private int doorSize = 8;
 	
 	private static final Color walkwayColor = new Color(237, 211, 137, 255);
 	private static final Color borderColor = new Color(140, 140, 120, 255);
@@ -31,6 +33,8 @@ public class BoardDisplay extends JPanel {
 	private Map<Character, Dimension> roomCenters = new HashMap<Character, Dimension>();
 	
 	public BoardDisplay() {
+		this.addComponentListener(new ResizeListener());
+		
 		for (Card gameCard : Board.getInstance().getGameCards()) {
 			char initial = 0;
 			
@@ -70,28 +74,28 @@ public class BoardDisplay extends JPanel {
 					
 					// Draw the board cell
 					g.setColor(walkwayColor);
-					g.fillRect(j * SIZE, i * SIZE, SIZE, SIZE);
+					g.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
 
 					// Draw the border
 					g.setColor(borderColor);
-					g.drawRect(j * SIZE, i * SIZE, SIZE, SIZE);
+					g.drawRect(j * cellSize, i * cellSize, cellSize, cellSize);
 					
 					break;
 					
 				case UP:
-					g.fillRect(j * SIZE, i * SIZE, SIZE, DOOR_WIDTH);
+					g.fillRect(j * cellSize, i * cellSize, cellSize, doorSize);
 					break;
 					
 				case RIGHT:
-					g.fillRect((j * SIZE) + (SIZE - DOOR_WIDTH), i * SIZE, DOOR_WIDTH, SIZE);
+					g.fillRect((j * cellSize) + (cellSize - doorSize), i * cellSize, doorSize, cellSize);
 					break;
 				
 				case DOWN:
-					g.fillRect(j * SIZE, (i * SIZE) + (SIZE - DOOR_WIDTH), SIZE, DOOR_WIDTH);
+					g.fillRect(j * cellSize, (i * cellSize) + (cellSize - doorSize), cellSize, doorSize);
 					break;
 					
 				case LEFT:
-					g.fillRect(j * SIZE, i * SIZE, DOOR_WIDTH, SIZE);
+					g.fillRect(j * cellSize, i * cellSize, doorSize, cellSize);
 					break;
 					
 				default:
@@ -102,12 +106,12 @@ public class BoardDisplay extends JPanel {
 		}
 		
 		// Draw the players
-		for (int i = 0; i < Board.getInstance().MAX_PLAYERS_COUNT; i++) {
+		for (int i = 0; i < Board.MAX_PLAYERS_COUNT; i++) {
 			g.setColor(Board.getInstance().getPlayer(i).getColor());
-			g.fillOval(Board.getInstance().getPlayer(i).getColumn() * SIZE + 1, Board.getInstance().getPlayer(i).getRow() * SIZE + 1, SIZE - 2, SIZE - 2);
+			g.fillOval(Board.getInstance().getPlayer(i).getColumn() * cellSize + 1, Board.getInstance().getPlayer(i).getRow() * cellSize + 1, cellSize - 2, cellSize - 2);
 			
 			g.setColor(playerBorderColor);
-			g.drawOval(Board.getInstance().getPlayer(i).getColumn() * SIZE + 1, Board.getInstance().getPlayer(i).getRow() * SIZE + 1, SIZE - 2, SIZE - 2);
+			g.drawOval(Board.getInstance().getPlayer(i).getColumn() * cellSize + 1, Board.getInstance().getPlayer(i).getRow() * cellSize + 1, cellSize - 2, cellSize - 2);
 			
 		}
 		
@@ -118,7 +122,7 @@ public class BoardDisplay extends JPanel {
 			int strWidth = g.getFontMetrics().stringWidth(Board.getInstance().getLegend().get(initial));
 			int strHeight = g.getFontMetrics().getHeight();
 			
-			g.drawString(Board.getInstance().getLegend().get(initial), (int) (roomCenters.get(initial).getWidth() * SIZE - (strWidth / 2)), (int) (roomCenters.get(initial).getHeight() * SIZE) + (strHeight / 2));
+			g.drawString(Board.getInstance().getLegend().get(initial), (int) (roomCenters.get(initial).getWidth() * cellSize - (strWidth / 2)), (int) (roomCenters.get(initial).getHeight() * cellSize) + (strHeight / 2));
 			
 		}
 	}
@@ -126,9 +130,25 @@ public class BoardDisplay extends JPanel {
 	@Override
 	public Dimension getPreferredSize() {
 
-		return new Dimension(Board.getInstance().getNumRows() * SIZE, Board.getInstance().getNumColumns() * SIZE);
+		return new Dimension(Board.getInstance().getNumRows() * cellSize, Board.getInstance().getNumColumns() * cellSize);
 	}
 
+	public void calculateCellSize(int numRows, int numColumns) {
+		double maxHeight = this.getPreferredSize().getHeight() / numColumns;
+		double maxWidth = this.getPreferredSize().getWidth() / numRows;
+		
+		cellSize = (maxHeight > maxWidth) ? (int) maxWidth : (int) maxHeight;
+		
+	}
+	
+	class ResizeListener extends ComponentAdapter {
+		public void componentResized(ComponentEvent e) {
+			calculateCellSize(Board.getInstance().getNumRows(), Board.getInstance().getNumColumns());
+			BoardDisplay.this.repaint();
+			
+		}
+	}
+	
 	private static Dimension calculateRoomCenter(Board board, char roomInitial) {
 		int maxColTop = -1;
 		int maxColBottom = -1;
