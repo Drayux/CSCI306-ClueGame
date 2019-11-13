@@ -2,6 +2,7 @@ package clueGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,6 +29,7 @@ JDialog detectiveNotes = null;
 		setSize(940, 940);
 		setBackground(Color.GREEN); // added a background color for "Fun"
 		setTitle("Clue"); // set title to generic "clue"
+		setMinimumSize(new Dimension(674, 700));
 		
 		ControlPanelLayout();
 		BoardDisplayLayout();
@@ -41,7 +43,9 @@ JDialog detectiveNotes = null;
 		detectiveNotes = new DetectiveNotesGUI();
 		detectiveNotes.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
-		add(new CardPanel(), BorderLayout.EAST);
+		CardPanel panel = new CardPanel();
+		panel.updateCards();
+		add(panel, BorderLayout.EAST);
 	}
 
 	// Make the control panel (CP) layout
@@ -54,7 +58,7 @@ JDialog detectiveNotes = null;
 	// Make the board display layout
 	private void BoardDisplayLayout() {
 		JPanel display = new BoardDisplay();
-		display.setPreferredSize(display.getPreferredSize());
+		//display.setPreferredSize(display.getPreferredSize());
 		this.add(display, BorderLayout.CENTER);
 		
 	}
@@ -105,10 +109,6 @@ JDialog detectiveNotes = null;
 
 
 	public static void main(String[] args) {
-		
-		
-		JOptionPane.showMessageDialog(null, "You are Miss Scarlet" + /* + Board.getInstance().getPlayer(1).getName() */  ", press Next Player to begin play", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE );
-
 		// Prepare the board
 		Board board = Board.getInstance();
 
@@ -117,12 +117,15 @@ JDialog detectiveNotes = null;
 		board.setConfig(ConfigType.PLAYER, "config/players.txt");
 		board.setConfig(ConfigType.WEAPON, "config/weapons.txt");
 
-		board.initialize();
+		board.initialize();  // @Kevin, everything we need to add should go AFTER this, else we'll get null pointers galore.
 		
 		// Create the GUI
 		JFrame gui = new ClueGameGUI();
 		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
+		
+		// Show the splash screen
+		JOptionPane.showMessageDialog(null, "You are " + Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).getName() + ", press Next Player to begin play", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE );
 
 	}
 }

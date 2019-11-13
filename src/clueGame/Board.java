@@ -20,6 +20,7 @@ public class Board {
 	private int numWeapons = 0;
 	
 	private int turnCount = 0; // Will be used later (this is why getPlayers has a modulus)
+	private int humanPlayer = 0;
 	
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int MAX_ROOMS_COUNT = 9;
@@ -82,6 +83,7 @@ public class Board {
 		}
 
 		calcAdjacencies();
+		dealCards();
 		
 	}
 
@@ -231,7 +233,11 @@ public class Board {
 					
 					// Game player handling
 					if (split[6].equals("Computer")) player = new ComputerPlayer(split[0], Integer.parseInt(split[4]), Integer.parseInt(split[5]), new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
-					else if (split[6].equals("Player")) player = new HumanPlayer(split[0], Integer.parseInt(split[4]), Integer.parseInt(split[5]), new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
+					else if (split[6].equals("Player")) {
+						player = new HumanPlayer(split[0], Integer.parseInt(split[4]), Integer.parseInt(split[5]), new Color(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
+						humanPlayer = numPlayers;
+						
+					}
 					
 					players[numPlayers] = player;
 					
@@ -509,9 +515,12 @@ public class Board {
 
 	public Map<Character, String> getLegend() { return (boardLegend == null) ? null : boardLegend; }
 	public Set<BoardCell> getTargets() { return (targets == null) ? null : targets; }
+	
 	public Set<BoardCell> getAdjList(BoardCell c) { return (adjacencies == null) ? null : adjacencies.get(c); }
 	public Set<BoardCell> getAdjList(int r, int c) { return (adjacencies == null) ? null : adjacencies.get(getCellAt(r, c)); }
+	
 	public Player getPlayer(int i) { return players[i % MAX_PLAYERS_COUNT]; }
+	public int getHumanPlayer() { return humanPlayer; }
 	public Set<Card> getGameCards() { return gameCards; }
 
 }

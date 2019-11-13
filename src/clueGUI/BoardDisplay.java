@@ -134,14 +134,16 @@ public class BoardDisplay extends JPanel {
 	}
 
 	public void calculateCellSize(int numRows, int numColumns) {
-		double maxHeight = this.getPreferredSize().getHeight() / numColumns;
-		double maxWidth = this.getPreferredSize().getWidth() / numRows;
+		double maxHeight = this.getHeight() / numRows;
+		double maxWidth = this.getWidth() / numColumns;
 		
 		cellSize = (maxHeight > maxWidth) ? (int) maxWidth : (int) maxHeight;
+		doorSize = cellSize / 4;
 		
 	}
 	
 	class ResizeListener extends ComponentAdapter {
+		
 		public void componentResized(ComponentEvent e) {
 			calculateCellSize(Board.getInstance().getNumRows(), Board.getInstance().getNumColumns());
 			BoardDisplay.this.repaint();
