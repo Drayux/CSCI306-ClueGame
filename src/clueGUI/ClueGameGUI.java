@@ -41,6 +41,7 @@ JDialog detectiveNotes = null;
 		detectiveNotes = new DetectiveNotesGUI();
 		detectiveNotes.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
+		add(new CardPanel(), BorderLayout.EAST);
 	}
 
 	// Make the control panel (CP) layout
@@ -106,7 +107,7 @@ JDialog detectiveNotes = null;
 	public static void main(String[] args) {
 		
 		
-		JOptionPane.showMessageDialog(null, "You are Miss Scarlet, press Next Player to begin play", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE );
+		JOptionPane.showMessageDialog(null, "You are Miss Scarlet" + /* + Board.getInstance().getPlayer(1).getName() */  ", press Next Player to begin play", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE );
 
 		// Prepare the board
 		Board board = Board.getInstance();
