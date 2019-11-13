@@ -62,6 +62,8 @@ public class ComputerPlayer extends Player {
 
 	@Override
 	public Solution createSuggestion() {
+		if (Board.getInstance().getAssociatedRoomCard(row, column) == null) return null;
+		
 		Solution suggestion = new Solution();
 		Set<Card> personCards = new HashSet<Card>();
 		Set<Card> weaponCards = new HashSet<Card>();
@@ -70,6 +72,7 @@ public class ComputerPlayer extends Player {
 		for (Card c : Board.getInstance().getGameCards()) {
 			if (hand.contains(c) || disprovenCards.contains(c)) continue;
 			
+			// Neither set can have a size of zero
 			if (c.getType() == CardType.PERSON) personCards.add(c);
 			else if (c.getType() == CardType.WEAPON) weaponCards.add(c);
 			

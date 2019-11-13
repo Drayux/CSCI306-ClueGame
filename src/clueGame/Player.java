@@ -28,6 +28,8 @@ public abstract class Player {
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {
+		if (suggestion == null) return null;
+		
 		Set<Card> matches = new HashSet<Card>();
 		
 		// Same pointer is used, so no equals function is necessary

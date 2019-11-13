@@ -93,6 +93,8 @@ public class CardPanel extends JPanel {
 				g.setColor(new Color(0, 0, 0, 255));
 				g.drawRoundRect(8, (cardHeight + 4) * count + 20, cardWidth, cardHeight, 8, 8);
 				
+				g.drawString(card.getName(), 16, (int) ((cardHeight + 4) * count + (cardHeight / 2) + (g.getFontMetrics().getHeight() / 4) + 20));
+				
 				count++;
 				
 			}

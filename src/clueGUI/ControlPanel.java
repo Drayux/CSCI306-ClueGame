@@ -2,6 +2,11 @@ package clueGUI;
 
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import clueGame.Board;
+import clueGame.Card;
+import clueGame.Solution;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,19 +16,26 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class ControlPanel extends JPanel {
 
 	private JTextField response;
+	
 	private JLabel whoseTurnLabel;
 	private JTextField whoseTurn;
+	
 	private JLabel diceRollLabel;
 	private JTextField diceRoll;
+	
 	private JLabel guessLabel;
 	private JTextField guess;
+	
 	private JLabel responseLabel;
 	private JButton nextPlayer;
+	
 	private JButton makeAccusation;
 
 	public ControlPanel() {
@@ -51,6 +63,25 @@ public class ControlPanel extends JPanel {
 		//nextPlayer.setBackground(Color.BLUE);  // BackGround on buttons wont change?
 		makeAccusation = new JButton("Make an accusation");
 
+		nextPlayer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("TODO next player game flow!");
+				nextPlayer.setEnabled(false);  // Disables the button until nextTurn() is finished (relevant for human player's turn)
+				
+				Board.getInstance().nextTurn();
+				updateFields();
+				
+				nextPlayer.setEnabled(true);
+				
+			}
+		});
+		
+		makeAccusation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("TODO make accusation functionality!");
+				
+			}
+		});
 
 		this.setLayout(new BorderLayout());
 
@@ -59,7 +90,7 @@ public class ControlPanel extends JPanel {
 		// J panel object for the lower text boxes in the bottom along with DIE ROLL
 		JPanel textBoxes = new JPanel();
 
-		topButtons.setLayout(new GridLayout(1,0));
+		topButtons.setLayout(new GridLayout(1, 0));
 		topButtons = createButtonPanel(topButtons);
 
 		textBoxes.setLayout(new FlowLayout());
@@ -71,11 +102,22 @@ public class ControlPanel extends JPanel {
 		//where to put buttons and text boxes on the screen 
 		this.add(textBoxes, BorderLayout.SOUTH);
 		this.add(topButtons, BorderLayout.NORTH);
+		
+		updateFields();
 
 	}
 	
-	
-	
+	public void updateFields() {
+		whoseTurn.setText(Board.getInstance().getPlayer(Board.getInstance().getTurn()).getName());
+		diceRoll.setText(Integer.toString(Board.getInstance().getRoll()));
+		
+		Solution currentSuggestion = Board.getInstance().getPlayerSuggestion();
+		Card currentEvidence = Board.getInstance().getPlayerEvidence();
+		
+		guess.setText((currentSuggestion == null) ? "No guess!" : currentSuggestion.getPerson() + ", " + currentSuggestion.getRoom() + ", " + currentSuggestion.getWeapon());
+		response.setText((currentEvidence == null) ? "Nothing to disprove!" : currentEvidence.getName());
+		
+	}
 
 	private JPanel fillInPanel(JPanel fillPanel) {
 
@@ -113,7 +155,7 @@ public class ControlPanel extends JPanel {
 	private JPanel createButtonPanel(JPanel fillButton) {
 
 		JPanel whoTurn = new JPanel();
-		whoTurn.setLayout(new GridLayout(5,1)); // setting the size for the "whose turn" box
+		whoTurn.setLayout(new GridLayout(5, 1)); // setting the size for the "whose turn" box
 		whoTurn.add(whoseTurnLabel);
 		whoTurn.add(whoseTurn);
 

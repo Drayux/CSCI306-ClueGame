@@ -19,8 +19,12 @@ public class Board {
 	private int numPlayers = 0;
 	private int numWeapons = 0;
 	
-	private int turnCount = 0; // Will be used later (this is why getPlayers has a modulus)
+	private int turnCount = -1; // Will be used later (this is why getPlayers has a modulus)
+	private int diceRoll = 0;
 	private int humanPlayer = 0;
+	
+	private Solution playerSuggestion = null;
+	private Card playerEvidence = null;
 	
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int MAX_ROOMS_COUNT = 9;
@@ -84,6 +88,7 @@ public class Board {
 
 		calcAdjacencies();
 		dealCards();
+		nextTurn();
 		
 	}
 
@@ -496,7 +501,19 @@ public class Board {
 	}
 	
 	public void nextTurn() {
+		diceRoll = (int) (Math.random() * 6) + 1;
 		turnCount++;
+		
+		// Move player
+		
+		// Create player suggestion
+		playerSuggestion = getPlayer(turnCount).createSuggestion();
+		
+		// Handle player suggestion
+		playerEvidence = handleSuggestion(playerSuggestion);
+		
+		// Opportunity to make accusation
+		// https://boardgamegeek.com/thread/978989/when-can-you-make-accusation
 		
 	}
 	
@@ -521,6 +538,11 @@ public class Board {
 	
 	public Player getPlayer(int i) { return players[i % MAX_PLAYERS_COUNT]; }
 	public int getHumanPlayer() { return humanPlayer; }
+	public Solution getPlayerSuggestion() { return playerSuggestion; }
+	public Card getPlayerEvidence() { return playerEvidence; }
+	
+	public int getTurn() { return turnCount; }
+	public int getRoll() { return diceRoll; }
 	public Set<Card> getGameCards() { return gameCards; }
 
 }

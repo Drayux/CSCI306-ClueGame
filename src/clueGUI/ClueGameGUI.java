@@ -29,7 +29,7 @@ JDialog detectiveNotes = null;
 		setSize(940, 940);
 		setBackground(Color.GREEN); // added a background color for "Fun"
 		setTitle("Clue"); // set title to generic "clue"
-		setMinimumSize(new Dimension(674, 700));
+		setMinimumSize(new Dimension(700, 700));  // 674 width works perfect for our board config
 		
 		ControlPanelLayout();
 		BoardDisplayLayout();
