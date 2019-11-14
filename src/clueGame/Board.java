@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+
+import clueGUI.ClueGameGUI;
+
 import java.util.HashSet;
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -12,6 +15,8 @@ import java.io.IOException;
 
 public class Board {
 
+	private ClueGameGUI GUI = null;
+	
 	private int numRows = 0;     // Initialize to zero for an uninitialized board
 	private int numColumns = 0;  // Initialize to zero for an uninitialized board
 
@@ -63,7 +68,13 @@ public class Board {
 
 	}
 
+	// Don't create a game window
 	public void initialize() {
+		initialize(null);
+		
+	}
+	
+	public void initialize(ClueGameGUI GUI) {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
@@ -88,7 +99,13 @@ public class Board {
 
 		calcAdjacencies();
 		dealCards();
-		nextTurn();
+		
+		// Create the game window
+		this.GUI = GUI;
+		this.GUI.initialize();
+		
+		this.GUI.setLocationRelativeTo(null);
+		this.GUI.setVisible(true);
 		
 	}
 
@@ -505,6 +522,11 @@ public class Board {
 		turnCount++;
 		
 		// Move player
+		calcTargets(getPlayer(turnCount).getLocation(), diceRoll);
+		getPlayer(turnCount).move(getPlayer(turnCount).pickLocation(targets));
+		
+		// Update the board
+		GUI.repaint();
 		
 		// Create player suggestion
 		playerSuggestion = getPlayer(turnCount).createSuggestion();
@@ -529,6 +551,7 @@ public class Board {
 	}
 	
 	public static Board getInstance() { return GAME_INSTANCE; }
+	public ClueGameGUI getGUI() { return GUI; }
 
 	public Map<Character, String> getLegend() { return (boardLegend == null) ? null : boardLegend; }
 	public Set<BoardCell> getTargets() { return (targets == null) ? null : targets; }

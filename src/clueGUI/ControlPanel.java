@@ -103,19 +103,24 @@ public class ControlPanel extends JPanel {
 		this.add(textBoxes, BorderLayout.SOUTH);
 		this.add(topButtons, BorderLayout.NORTH);
 		
-		updateFields();
+		//updateFields();
 
 	}
 	
 	public void updateFields() {
-		whoseTurn.setText(Board.getInstance().getPlayer(Board.getInstance().getTurn()).getName());
+		int currentTurn = Board.getInstance().getTurn();
+		if (currentTurn < 0) return;
+		
+		whoseTurn.setText(Board.getInstance().getPlayer(currentTurn).getName());
 		diceRoll.setText(Integer.toString(Board.getInstance().getRoll()));
 		
 		Solution currentSuggestion = Board.getInstance().getPlayerSuggestion();
 		Card currentEvidence = Board.getInstance().getPlayerEvidence();
 		
-		guess.setText((currentSuggestion == null) ? "No guess!" : currentSuggestion.getPerson() + ", " + currentSuggestion.getRoom() + ", " + currentSuggestion.getWeapon());
-		response.setText((currentEvidence == null) ? "Nothing to disprove!" : currentEvidence.getName());
+		guess.setText((currentSuggestion == null) ? "No guess!" : currentSuggestion.getPerson().getName() + ", " + currentSuggestion.getRoom().getName() + ", " + currentSuggestion.getWeapon().getName());
+		
+		if (currentSuggestion == null) response.setText("Nothing to disprove!");
+		else response.setText((currentEvidence == null) ? "Suggestion cannot be disproved!" : currentEvidence.getName());
 		
 	}
 

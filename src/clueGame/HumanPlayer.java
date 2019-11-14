@@ -12,8 +12,13 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public BoardCell pickLocation(Set<BoardCell> targets) {
-		// TODO Auto-generated method stub
-		return null;
+		for (BoardCell cell : targets) cell.isSelected = true;
+		Board.getInstance().getGUI().repaint();
+		
+		// Wait for user to select a cell
+		
+		for (BoardCell cell : targets) cell.isSelected = false;
+		return Board.getInstance().getCellAt(row, column);
 	}
 
 	@Override
@@ -25,9 +30,9 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public Solution createSuggestion() {
-		// TODO Auto-generated method stub
-		return null;
-		
+		System.out.println("TODO Finish human player suggestion");
+
+		return null;		
 	}
 
 }

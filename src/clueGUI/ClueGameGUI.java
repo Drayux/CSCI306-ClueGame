@@ -21,7 +21,10 @@ import clueGame.ConfigType;
 //Put main in a separate class due to confusion of how to have both JFRAME / JPANEL in one class
 public class ClueGameGUI extends JFrame {
 
-JDialog detectiveNotes = null;
+private JDialog detectiveNotes = null;
+private JMenu menu = null;
+private JPanel control = null;
+private JPanel display = null;
 
 	//Constructor for main window
 	public ClueGameGUI() {
@@ -31,6 +34,9 @@ JDialog detectiveNotes = null;
 		setTitle("Clue"); // set title to generic "clue"
 		setMinimumSize(new Dimension(700, 700));  // 674 width works perfect for our board config
 		
+	}
+
+	public void initialize() {
 		ControlPanelLayout();
 		BoardDisplayLayout();
 		
@@ -46,25 +52,26 @@ JDialog detectiveNotes = null;
 		CardPanel panel = new CardPanel();
 		panel.updateCards();
 		add(panel, BorderLayout.EAST);
+		
 	}
-
+	
 	// Make the control panel (CP) layout
 	private void ControlPanelLayout() {
-		JPanel control = new ControlPanel();
+		control = new ControlPanel();
 		this.add(control, BorderLayout.SOUTH);
 
 	}
 	
 	// Make the board display layout
 	private void BoardDisplayLayout() {
-		JPanel display = new BoardDisplay();
+		display = new BoardDisplay();
 		//display.setPreferredSize(display.getPreferredSize());
 		this.add(display, BorderLayout.CENTER);
 		
 	}
 	
 	private JMenu createFileMenu() {
-		JMenu menu = new JMenu("File"); 
+		menu = new JMenu("File"); 
 		menu.add(openDetectiveNotes());
 		menu.addSeparator();
 		menu.add(createFileExitItem());
@@ -106,23 +113,25 @@ JDialog detectiveNotes = null;
 		item.addActionListener(new MenuItemListener());
 		return item;
 	}
-
-
+	
+	public JPanel getGUIBoardDisplay() {
+		
+		return display;
+	}
+	
 	public static void main(String[] args) {
 		// Prepare the board
 		Board board = Board.getInstance();
+		
+		// Create the GUI
+		JFrame GUI = new ClueGameGUI();
 
 		board.setConfig(ConfigType.BOARD, "config/board.csv");
 		board.setConfig(ConfigType.LEGEND, "config/legend.txt");
 		board.setConfig(ConfigType.PLAYER, "config/players.txt");
 		board.setConfig(ConfigType.WEAPON, "config/weapons.txt");
 
-		board.initialize();  // @Kevin, everything we need to add should go AFTER this, else we'll get null pointers galore.
-		
-		// Create the GUI
-		JFrame gui = new ClueGameGUI();
-		gui.setLocationRelativeTo(null);
-		gui.setVisible(true);
+		board.initialize((ClueGameGUI) GUI);  // @Kevin, everything we need to add should go AFTER this, else we'll get null pointers galore.
 		
 		// Show the splash screen
 		JOptionPane.showMessageDialog(null, "You are " + Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).getName() + ", press Next Player to begin play", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE );

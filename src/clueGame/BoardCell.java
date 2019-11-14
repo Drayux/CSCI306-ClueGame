@@ -4,6 +4,7 @@ public class BoardCell {
 
 	private int row;
 	private int column;
+	public boolean isSelected = false;	// This is intentionally public; The highlight is controlled elsewhere, so retention of data is not crucial
 
 	private static char walkwayInitial = 0;
 

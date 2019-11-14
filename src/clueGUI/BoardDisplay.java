@@ -24,6 +24,7 @@ public class BoardDisplay extends JPanel {
 	private int doorSize = 8;
 	
 	private static final Color walkwayColor = new Color(237, 211, 137, 255);
+	private static final Color selectedWalkwayColor = new Color(255, 255, 255, 255);
 	private static final Color borderColor = new Color(140, 140, 120, 255);
 	private static final Color playerBorderColor = new Color(90, 90, 60, 255);
 	private static final Color textColor = new Color(75, 75, 40, 255);
@@ -31,6 +32,7 @@ public class BoardDisplay extends JPanel {
 	private static final Color backgroundColor = new Color(220, 215, 210, 255);
 
 	private Map<Character, Dimension> roomCenters = new HashMap<Character, Dimension>();
+	private Dimension lastClick = null;
 	
 	public BoardDisplay() {
 		this.addComponentListener(new ResizeListener());
@@ -58,6 +60,8 @@ public class BoardDisplay extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		BoardCell curCell = null;
+		
 		// Draw the background
 		g.setColor(backgroundColor);
 		g.fillRect(0, 0, (int) getPreferredSize().getHeight() + 1, (int) getPreferredSize().getWidth() + 1);
@@ -66,14 +70,15 @@ public class BoardDisplay extends JPanel {
 		for (int i = 0; i < Board.getInstance().getNumRows(); i++) {
 			for (int j = 0; j < Board.getInstance().getNumColumns(); j++) {
 
+				curCell = Board.getInstance().getCellAt(i, j);
 				g.setColor(doorColor);
 				
-				switch (Board.getInstance().getCellAt(i, j).getDoorDirection()) {
+				switch (curCell.getDoorDirection()) {
 				case NONE:
-					if (!Board.getInstance().getCellAt(i, j).isWalkway()) break;
+					if (!curCell.isWalkway()) break;
 					
 					// Draw the board cell
-					g.setColor(walkwayColor);
+					g.setColor((curCell.isSelected) ? selectedWalkwayColor : walkwayColor);
 					g.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
 
 					// Draw the border
@@ -272,5 +277,7 @@ public class BoardDisplay extends JPanel {
 		
 		return new Dimension(maxCoordX + (maxDimX / 2), maxCoordY + (maxDimY / 2));
 	}
+	
+	public Dimension getLastClick() { return lastClick; }
 	
 }

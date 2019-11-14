@@ -72,6 +72,12 @@ public abstract class Player {
 		return null;
 	}
 	
+	public void move(BoardCell location) {
+		row = location.getRow();
+		column = location.getColumn();
+		
+	}
+	
 	public String getName() { return playerName; }
 	public Color getColor() { return color; }
 	public int getRow() { return row; }
