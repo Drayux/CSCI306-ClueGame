@@ -4,6 +4,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.Board;
+import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.Solution;
 
@@ -18,6 +19,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class ControlPanel extends JPanel {
@@ -65,14 +68,23 @@ public class ControlPanel extends JPanel {
 
 		nextPlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("TODO next player game flow!");
+				//System.out.println("TODO next player game flow!");
 				nextPlayer.setEnabled(false);  // Disables the button until nextTurn() is finished (relevant for human player's turn)
 				
-				Board.getInstance().nextTurn();
-				updateFields();
-				
-				nextPlayer.setEnabled(true);
-				
+				if (!Board.getInstance().nextTurn()) {
+					updateFields();
+					nextPlayer.setEnabled(true);
+					
+				} else {
+					updateFields();
+					Board.getInstance().calcTargets(Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).getLocation(), Board.getInstance().getRoll());
+					
+					for (BoardCell cell : Board.getInstance().getTargets()) cell.isSelected = true;
+					Board.getInstance().getGUI().repaint();
+					
+					Board.getInstance().getGUI().getBoardDisplay().addMouseListener(Board.getInstance().getGUI().getBoardDisplay().listener);
+					
+				}
 			}
 		});
 		
@@ -168,14 +180,9 @@ public class ControlPanel extends JPanel {
 		fillButton.add(nextPlayer);
 		fillButton.add(makeAccusation);
 		return fillButton;
+		
 	}
+
+	public void enableNextPlayerButton() { nextPlayer.setEnabled(true); }
 	
-	
-
-
-
-
-
-
-
 }

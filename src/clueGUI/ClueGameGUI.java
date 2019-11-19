@@ -114,9 +114,14 @@ private JPanel display = null;
 		return item;
 	}
 	
-	public JPanel getGUIBoardDisplay() {
+	public BoardDisplay getBoardDisplay() {
 		
-		return display;
+		return (BoardDisplay) display;
+	}
+	
+	public ControlPanel getControlPanel() {
+		
+		return (ControlPanel) control;
 	}
 	
 	public static void main(String[] args) {
@@ -131,7 +136,8 @@ private JPanel display = null;
 		board.setConfig(ConfigType.PLAYER, "config/players.txt");
 		board.setConfig(ConfigType.WEAPON, "config/weapons.txt");
 
-		board.initialize((ClueGameGUI) GUI);  // @Kevin, everything we need to add should go AFTER this, else we'll get null pointers galore.
+		board.initialize((ClueGameGUI) GUI);
+		board.setTurn(board.getHumanPlayer() - 1);  // Comment this out for first player being that defined in the config like we were so joyously mislead to assume
 		
 		// Show the splash screen
 		JOptionPane.showMessageDialog(null, "You are " + Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).getName() + ", press Next Player to begin play", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE );

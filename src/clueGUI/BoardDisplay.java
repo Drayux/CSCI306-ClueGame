@@ -5,11 +5,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import clueGame.Board;
@@ -17,6 +20,8 @@ import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.DoorDirection;
+import clueGame.Solution;
+import clueGame.WaitThread;
 
 public class BoardDisplay extends JPanel {
 
@@ -24,7 +29,8 @@ public class BoardDisplay extends JPanel {
 	private int doorSize = 8;
 	
 	private static final Color walkwayColor = new Color(237, 211, 137, 255);
-	private static final Color selectedWalkwayColor = new Color(255, 255, 255, 255);
+	private static final Color selectedWalkwayColor = new Color(250, 234, 190, 255);
+	private static final Color selectedRoomColor = new Color(240, 237, 235, 255);
 	private static final Color borderColor = new Color(140, 140, 120, 255);
 	private static final Color playerBorderColor = new Color(90, 90, 60, 255);
 	private static final Color textColor = new Color(75, 75, 40, 255);
@@ -34,8 +40,11 @@ public class BoardDisplay extends JPanel {
 	private Map<Character, Dimension> roomCenters = new HashMap<Character, Dimension>();
 	private Dimension lastClick = null;
 	
+	public final ClickListener listener = new ClickListener();
+	
 	public BoardDisplay() {
 		this.addComponentListener(new ResizeListener());
+		//this.addMouseListener(new ClickListener());
 		
 		for (Card gameCard : Board.getInstance().getGameCards()) {
 			char initial = 0;
@@ -69,12 +78,19 @@ public class BoardDisplay extends JPanel {
 		// Draw the board
 		for (int i = 0; i < Board.getInstance().getNumRows(); i++) {
 			for (int j = 0; j < Board.getInstance().getNumColumns(); j++) {
-
-				curCell = Board.getInstance().getCellAt(i, j);
-				g.setColor(doorColor);
 				
+				curCell = Board.getInstance().getCellAt(i, j);
+				
+				if (curCell.isSelected && !curCell.isWalkway()) {
+					g.setColor(selectedRoomColor);
+					g.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
+					
+				}
+				
+				g.setColor(doorColor);
 				switch (curCell.getDoorDirection()) {
 				case NONE:
+					// Up here add full room coloring for selection
 					if (!curCell.isWalkway()) break;
 					
 					// Draw the board cell
@@ -138,6 +154,13 @@ public class BoardDisplay extends JPanel {
 		return new Dimension(Board.getInstance().getNumRows() * cellSize, Board.getInstance().getNumColumns() * cellSize);
 	}
 
+	public BoardCell getCellAtClick() {
+		if (lastClick == null) return null;
+		
+		BoardCell location = Board.getInstance().getCellAt((int) lastClick.getHeight() / cellSize, (int) lastClick.getWidth() / cellSize);
+		return location; 
+	}
+	
 	public void calculateCellSize(int numRows, int numColumns) {
 		double maxHeight = this.getHeight() / numRows;
 		double maxWidth = this.getWidth() / numColumns;
@@ -147,13 +170,62 @@ public class BoardDisplay extends JPanel {
 		
 	}
 	
-	class ResizeListener extends ComponentAdapter {
+	private class ResizeListener extends ComponentAdapter {
 		
+		@Override
 		public void componentResized(ComponentEvent e) {
 			calculateCellSize(Board.getInstance().getNumRows(), Board.getInstance().getNumColumns());
 			BoardDisplay.this.repaint();
 			
 		}
+	}
+	
+	public class ClickListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			lastClick = new Dimension(e.getX(), e.getY());
+			//System.out.println("Clicked: " + e.getX() + ", " + e.getY());
+			
+			//Board.getInstance().calcTargets(Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).getLocation(), Board.getInstance().getRoll());
+			BoardCell selection = Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).pickLocation(Board.getInstance().getTargets());
+			
+			if (selection == null) {
+				JOptionPane.showMessageDialog(null, "Invalid location selected!", "Error", JOptionPane.INFORMATION_MESSAGE );
+				return;
+				
+			}
+			
+			for (BoardCell cell : Board.getInstance().getTargets()) cell.isSelected = false;
+			Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).move(selection);
+			Board.getInstance().getGUI().repaint();
+			
+			BoardDisplay.this.removeMouseListener(listener);
+			
+			// Handle human player suggestions
+			System.out.println("TODO handle human suggestions");
+			
+			Board.getInstance().getGUI().getControlPanel().updateFields();
+			Board.getInstance().getGUI().getControlPanel().enableNextPlayerButton();
+			
+			/*synchronized(WaitThread.monitor) {
+				WaitThread.monitor.notify(); 
+				
+			}*/
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+		
 	}
 	
 	private static Dimension calculateRoomCenter(Board board, char roomInitial) {

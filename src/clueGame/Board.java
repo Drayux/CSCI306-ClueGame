@@ -517,9 +517,11 @@ public class Board {
 		return null;
 	}
 	
-	public void nextTurn() {
+	public boolean nextTurn() {
 		diceRoll = (int) (Math.random() * 6) + 1;
 		turnCount++;
+		
+		if (turnCount % MAX_PLAYERS_COUNT == humanPlayer) return true;
 		
 		// Move player
 		calcTargets(getPlayer(turnCount).getLocation(), diceRoll);
@@ -536,6 +538,8 @@ public class Board {
 		
 		// Opportunity to make accusation
 		// https://boardgamegeek.com/thread/978989/when-can-you-make-accusation
+		
+		return false;
 		
 	}
 	
@@ -565,6 +569,7 @@ public class Board {
 	public Card getPlayerEvidence() { return playerEvidence; }
 	
 	public int getTurn() { return turnCount; }
+	public void setTurn(int turn) { turnCount = turn; }
 	public int getRoll() { return diceRoll; }
 	public Set<Card> getGameCards() { return gameCards; }
 

@@ -12,13 +12,31 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public BoardCell pickLocation(Set<BoardCell> targets) {
-		for (BoardCell cell : targets) cell.isSelected = true;
-		Board.getInstance().getGUI().repaint();
+		//for (BoardCell cell : targets) cell.isSelected = true;
+		//Board.getInstance().getGUI().repaint();
 		
-		// Wait for user to select a cell
+		//WaitThread test = new WaitThread();
+		//test.start();
 		
-		for (BoardCell cell : targets) cell.isSelected = false;
-		return Board.getInstance().getCellAt(row, column);
+		//synchronized(WaitThread.monitor) { WaitThread.monitor.notify(); }
+		
+		/*try {
+			test.join();
+			
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			
+		}*/
+		
+		//for (BoardCell cell : targets) cell.isSelected = false;  // This is repainted again as soon as the function returns
+		//return Board.getInstance().getCellAt(row, column);
+		
+		for (BoardCell cell : targets) {
+			if (cell == Board.getInstance().getGUI().getBoardDisplay().getCellAtClick()) return cell;
+			
+		}
+		
+		return null;
 	}
 
 	@Override
