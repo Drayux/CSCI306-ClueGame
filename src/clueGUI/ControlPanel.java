@@ -67,6 +67,8 @@ public class ControlPanel extends JPanel {
 		makeAccusation = new JButton("Make an accusation");
 
 		nextPlayer.addActionListener(new ActionListener() {
+			
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				//System.out.println("TODO next player game flow!");
 				nextPlayer.setEnabled(false);  // Disables the button until nextTurn() is finished (relevant for human player's turn)
@@ -89,6 +91,8 @@ public class ControlPanel extends JPanel {
 		});
 		
 		makeAccusation.addActionListener(new ActionListener() {
+			
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("TODO make accusation functionality!");
 				

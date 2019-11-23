@@ -29,6 +29,18 @@ hs_err_pid*
 # Windows
 # =========================
 
+# Netbeans project files
+build.xml
+.netbeans_automatic_build
+.netbeans_update_resources
+manifest.mf
+build-impl.xml
+private.properties
+genfiles.properties
+project.properties
+private.xml
+project.xml
+
 # Windows thumbnail cache files
 Thumbs.db
 ehthumbs.db
