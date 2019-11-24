@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.ConfigType;
 
 public class AdjacencyTargetTests {
 	// We make the Board static because we can load it one time and 
@@ -24,7 +25,10 @@ public class AdjacencyTargetTests {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("config/board.csv", "config/legend.txt");		
+		board.setConfig(ConfigType.BOARD, "config/board.csv");
+		board.setConfig(ConfigType.LEGEND, "config/legend.txt");
+		board.setConfig(ConfigType.PLAYER, "config/players.txt");
+		board.setConfig(ConfigType.WEAPON, "config/weapons.txt");
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}

@@ -50,7 +50,7 @@ public class HumanPlayer extends Player {
 	public Solution createSuggestion() {
 		System.out.println("TODO Finish human player suggestion");
 
-		return null;		
+		return null;
 	}
 
 }
