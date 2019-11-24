@@ -6,6 +6,7 @@ import javax.swing.border.TitledBorder;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.Card;
+import clueGame.GuessBox;
 import clueGame.Solution;
 
 import javax.swing.JButton;
@@ -94,6 +95,11 @@ public class ControlPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				GuessBox box = new GuessBox();
+				
+				box.setVisible(true);
+				
 				System.out.println("TODO make accusation functionality!");
 				
 			}

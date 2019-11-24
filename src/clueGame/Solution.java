@@ -6,6 +6,8 @@ public class Solution {
 	private Card room;
 	private Card weapon;
 	
+	
+	
 	public Card getPerson() {
 	
 		return person;
