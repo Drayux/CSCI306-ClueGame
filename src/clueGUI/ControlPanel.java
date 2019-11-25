@@ -96,7 +96,7 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				GuessBox box = new GuessBox();
+				GuessBox box = new GuessBox(new BoardCell());
 				
 				box.setVisible(true);
 				

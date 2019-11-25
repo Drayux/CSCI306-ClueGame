@@ -19,27 +19,26 @@ import javax.swing.border.TitledBorder;
 
 //Dialog box for making suggestions and accusations
 public class GuessBox extends JDialog{
-	
+
 	private DropDown pickPerson;
 	private DropDown pickWeapon;
 	private DropDown pickRoom;
 	private JButton cancel;
 	private JButton submit;
 	private JTextField roomBox;
-	private boolean accusation;
-	
+	private Solution guess = new Solution();
+
 
 	//constructor for accusation
 	public GuessBox() {
 		setModal(true);
-		accusation = true;
 		setTitle("Make an Accusation");
 		setSize(new Dimension(400, 200));
 		setLayout(new GridLayout(4,2));
 		String[] people = { "Colonel Mustard", "Miss Scarlet", "Mr Green" , "Mrs Peacock", "Mrs. White" , "Professor Plum"};
 		String[] weapons = {"Light Saber", "Plasma Rifle", "Throwing Hatchet", "Rusty Knife", "SCAR 17-H", "Chain saw"};
 		String[] rooms = {"Asylum", "Kitchen", "Living Room", "Butcher's Bedroom", "Hotbox", "Studio", "Dining Room", "Arena", "Underwear Repair"};
-	
+
 
 		JLabel yourRoom = new JLabel("Your room");
 		pickRoom = new DropDown(rooms);
@@ -61,20 +60,42 @@ public class GuessBox extends JDialog{
 
 		submit = new JButton("Submit");
 		cancel = new JButton("Cancel");
-		submit.addActionListener(new ButtonListener());
-		cancel.addActionListener(new ButtonListener());
+		submit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+
+		});
+		cancel.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			} 
+			
+			
+		});
+			
+		
 		this.add(submit);
 		this.add(cancel);
+
+
+
 	
+
 	}
-	
-	
-	
+
+
+
 	//constructor for suggestion
-	
-	public GuessBox(String room) {
+
+	public GuessBox(BoardCell room) {
 		setModal(true);
-		accusation = false;
 		setTitle("Make a Guess");
 		setSize(new Dimension(400, 200));
 		setLayout(new GridLayout(4,2));
@@ -84,7 +105,7 @@ public class GuessBox extends JDialog{
 		JLabel yourRoom = new JLabel("Your room");
 		roomBox = new JTextField(20);
 		roomBox.setEditable(false);
-		roomBox.setText(room);
+		roomBox.setText(Board.getInstance().getAssociatedRoomCard(room).getName());
 
 		this.add(yourRoom);
 		this.add(roomBox);
@@ -102,14 +123,32 @@ public class GuessBox extends JDialog{
 		this.add(pickWeapon);
 
 		submit = new JButton("Submit");
-		cancel = new JButton("Cancel");
-		submit.addActionListener(new ButtonListener());
-		cancel.addActionListener(new ButtonListener());
+		
+		submit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			guess.setRoom(Board.getInstance().getAssociatedRoomCard(room));
+			guess.setPerson(Board.getInstance().getAssociatedCard(pickPerson.getName()));
+			guess.setWeapon(Board.getInstance().getAssociatedCard(pickWeapon.getName()));
+			
+			setVisible(false);
+			
+			System.out.println(guess.getPerson().getName());
+			
+			}
+
+		});
+		
+			
+
 		this.add(submit);
-		this.add(cancel);
 	
+
+
+
 	}
-	
+
 	//constructs a combobox based on an array of strings
 	private class DropDown extends JComboBox {
 		public DropDown(String[] nameList) {
@@ -118,28 +157,9 @@ public class GuessBox extends JDialog{
 			}
 		}
 	}
-	
-	
-	//Define function for accusation / suggestion?
-	
-	private class ButtonListener implements ActionListener {
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == submit) {
-			if (accusation == false) {
-			
-			}
-				
-	
-		else if (e.getSource() == cancel) {
-			//do nothing
-		}
-		setVisible(false);
-	}
-}
-}
+
+
 
 }
 
