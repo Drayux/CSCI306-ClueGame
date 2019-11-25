@@ -1,3 +1,7 @@
+// TODO LIST
+// - Fix calcTargets (route can be traced out of a room and back into the same room for rooms with double-doors
+// - Update calcTargets such that rooms can be exited through any door
+
 package clueGame;
 
 import java.util.Map;

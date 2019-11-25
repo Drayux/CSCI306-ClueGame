@@ -31,10 +31,10 @@ public class HumanPlayer extends Player {
 		//for (BoardCell cell : targets) cell.isSelected = false;  // This is repainted again as soon as the function returns
 		//return Board.getInstance().getCellAt(row, column);
 		
-		for (BoardCell cell : targets) {
+		/*for (BoardCell cell : targets) {
 			if (cell == Board.getInstance().getGUI().getBoardDisplay().getCellAtClick()) return cell;
 			
-		}
+		}*/
 		
 		return null;
 	}

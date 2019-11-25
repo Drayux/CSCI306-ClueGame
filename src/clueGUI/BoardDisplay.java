@@ -41,6 +41,8 @@ public class BoardDisplay extends JPanel {
 	private Set<BoardRoom> rooms = new HashSet<BoardRoom>();
 	private Dimension lastClick = null;
 
+	private Set<Character> selectedRooms = new HashSet<Character>();
+	
 	public final ClickListener listener = new ClickListener();
 
 	public BoardDisplay() {
@@ -85,10 +87,10 @@ public class BoardDisplay extends JPanel {
 		g.fillRect(0, 0, (int) getPreferredSize().getHeight() + 1, (int) getPreferredSize().getWidth() + 1);
 
 		// Compile a list of selected room chars
-		Set<Character> selectedRooms = new HashSet<Character>();
+		selectedRooms = new HashSet<Character>();
 		for (int i = 0; i < Board.getInstance().getNumRows(); i++) {
 			for (int j = 0; j < Board.getInstance().getNumColumns(); j++) {
-				if (Board.getInstance().getCellAt(i, j).isSelected) selectedRooms.add(Board.getInstance().getCellAt(i, j).getInitial());
+				if (Board.getInstance().getCellAt(i, j).isSelected && !Board.getInstance().getCellAt(i, j).isWalkway()) selectedRooms.add(Board.getInstance().getCellAt(i, j).getInitial());
 				
 			}
 		}
@@ -225,7 +227,19 @@ public class BoardDisplay extends JPanel {
 			//System.out.println("Clicked: " + e.getX() + ", " + e.getY());
 
 			//Board.getInstance().calcTargets(Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).getLocation(), Board.getInstance().getRoll());
-			BoardCell selection = Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).pickLocation(Board.getInstance().getTargets());
+			BoardCell selection = null; // Board.getInstance().getPlayer(Board.getInstance().getHumanPlayer()).pickLocation(Board.getInstance().getTargets());
+			
+			for (BoardCell cell : Board.getInstance().getTargets()) {
+				if (getCellAtClick() == cell) {
+					selection = cell;
+					break;
+				
+				} else if (cell.getInitial() == getCellAtClick().getInitial() && selectedRooms.contains(cell.getInitial())) {
+					selection = cell;
+					break;
+					
+				}
+			}
 
 			if (selection == null) {
 				JOptionPane.showMessageDialog(null, "Invalid location selected!", "Error", JOptionPane.INFORMATION_MESSAGE );
