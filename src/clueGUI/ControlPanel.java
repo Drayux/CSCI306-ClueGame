@@ -96,7 +96,7 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				GuessBox box = new GuessBox(new BoardCell());
+				GuessBox box = new GuessBox();
 				
 				box.setVisible(true);
 				
@@ -192,6 +192,9 @@ public class ControlPanel extends JPanel {
 		return fillButton;
 		
 	}
+	
+	
+	
 
 	public void enableNextPlayerButton() { nextPlayer.setEnabled(true); }
 	

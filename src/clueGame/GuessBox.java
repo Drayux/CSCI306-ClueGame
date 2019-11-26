@@ -132,9 +132,9 @@ public class GuessBox extends JDialog{
 			guess.setPerson(Board.getInstance().getAssociatedCard(pickPerson.getName()));
 			guess.setWeapon(Board.getInstance().getAssociatedCard(pickWeapon.getName()));
 			
-			setVisible(false);
+			//setVisible(false);
 			
-			System.out.println(guess.getPerson().getName());
+			//System.out.println(guess.getPerson().getName());
 			
 			}
 
